@@ -19,7 +19,9 @@
     <select />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="94a1c42d-5d2c-4eaf-a0fc-5891e9f29deb" name="Default Changelist" comment="Log the github_token" />
+    <list default="true" id="94a1c42d-5d2c-4eaf-a0fc-5891e9f29deb" name="Default Changelist" comment="Include index.js with &quot;Hello World&quot; message">
+      <change afterPath="$PROJECT_DIR$/index.js" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -37,11 +39,15 @@
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
   <component name="ProjectId" id="1ciM1Nie0ZUsfa4F3N6AMfcfKMD" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true">
+    <ConfirmationsSetting value="2" id="Add" />
+  </component>
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
   <component name="PropertiesComponent">
+    <property name="ASKED_ADD_EXTERNAL_FILES" value="true" />
     <property name="ASKED_SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
@@ -77,7 +83,21 @@
       <option name="project" value="LOCAL" />
       <updated>1591007922860</updated>
     </task>
-    <option name="localTasksCounter" value="3" />
+    <task id="LOCAL-00003" summary="Include index.js with &quot;Hello World&quot; message">
+      <created>1591008660674</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1591008660674</updated>
+    </task>
+    <task id="LOCAL-00004" summary="Include index.js with &quot;Hello World&quot; message">
+      <created>1591008679141</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1591008679141</updated>
+    </task>
+    <option name="localTasksCounter" value="5" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -99,11 +119,14 @@
         </entry>
       </map>
     </option>
+    <option name="oldMeFiltersMigrated" value="true" />
   </component>
   <component name="VcsManagerConfiguration">
+    <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
     <MESSAGE value="Remove 'with' block from 'runs'" />
     <MESSAGE value="Log the github_token" />
-    <option name="LAST_COMMIT_MESSAGE" value="Log the github_token" />
+    <MESSAGE value="Include index.js with &quot;Hello World&quot; message" />
+    <option name="LAST_COMMIT_MESSAGE" value="Include index.js with &quot;Hello World&quot; message" />
   </component>
   <component name="WindowStateProjectService">
     <state x="221" y="58" key="SettingsEditor" timestamp="1591007110536">
@@ -114,10 +137,10 @@
       <screen x="0" y="23" width="1440" height="793" />
     </state>
     <state width="500" height="445" key="SwitcherDM/0.23.1440.793@0.23.1440.793" timestamp="1591007891576" />
-    <state x="320" y="159" key="Vcs.Push.Dialog.v2" timestamp="1591007926116">
+    <state x="320" y="159" key="Vcs.Push.Dialog.v2" timestamp="1591008685025">
       <screen x="0" y="23" width="1440" height="793" />
     </state>
-    <state x="320" y="159" key="Vcs.Push.Dialog.v2/0.23.1440.793@0.23.1440.793" timestamp="1591007926116" />
+    <state x="320" y="159" key="Vcs.Push.Dialog.v2/0.23.1440.793@0.23.1440.793" timestamp="1591008685025" />
     <state x="418" y="52" width="604" height="735" key="find.popup" timestamp="1591007956947">
       <screen x="0" y="23" width="1440" height="793" />
     </state>
