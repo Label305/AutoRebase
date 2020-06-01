@@ -16,5 +16,8 @@
   "bugs": {
     "url": "https://github.com/Label305/MyFirstGithubAction/issues"
   },
-  "homepage": "https://github.com/Label305/MyFirstGithubAction#readme"
+  "homepage": "https://github.com/Label305/MyFirstGithubAction#readme",
+  "dependencies": {
+    "@actions/core": "^1.2.4"
+  }
 }
