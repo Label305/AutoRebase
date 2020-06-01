@@ -1,5 +1,11 @@
 name: 'My first github action'
 description: 'This is my first github actin'
+
+inputs:
+  github_token:
+    description: The GITHUB_TOKEN secret
+    required: true
+
 runs:
   using: 'node12'
   main: 'index.js'
