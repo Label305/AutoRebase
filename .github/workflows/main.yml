@@ -1,0 +1,11 @@
+on: [push]
+
+jobs:
+  my_first_github_action_job:
+    runs-on: ubuntu-latest
+    name: My first job
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Run index.js
+        uses: ./ # Uses an action in the root directory
