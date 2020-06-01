@@ -1,0 +1,5 @@
+name: 'My first github action'
+description: 'This is my first github actin'
+runs:
+  using: 'node12'
+  main: 'index.js'
