@@ -9,3 +9,5 @@ jobs:
         uses: actions/checkout@v2
       - name: Run index.js
         uses: ./ # Uses an action in the root directory
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
