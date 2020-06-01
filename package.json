@@ -18,6 +18,7 @@
   },
   "homepage": "https://github.com/Label305/MyFirstGithubAction#readme",
   "dependencies": {
-    "@actions/core": "^1.2.4"
+    "@actions/core": "^1.2.4",
+    "@actions/github": "^2.2.0"
   }
 }
