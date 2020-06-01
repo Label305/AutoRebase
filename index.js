@@ -3,19 +3,14 @@ const core = require('@actions/core');
 
 async function run() {
     const githubToken = core.getInput('github_token');
-
     const octokit = new github.GitHub(githubToken);
 
-    const { data: pullRequest } = await octokit.pulls.get({
-        owner: 'octokit',
-        repo: 'rest.js',
-        pull_number: 123,
-        mediaType: {
-            format: 'diff'
-        }
-    });
+    const owner = github.context.repo.owner
+    const repo = github.context.repo.repo
 
-    console.log(pullRequest);
+    const pullsResult = await octokit.pulls.list({owner, repo})
+    const pullsData = pullsResult.data
+    console.log(pullsData);
 }
 
 run();
