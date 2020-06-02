@@ -16,6 +16,10 @@ async function run() {
 
         const pushResult = await exec('git push');
         console.log(pushResult);
+
+        await exec('git reset --hard HEAD^');
+        const pushResult2 = await exec('git push --force-with-lease');
+        console.log(pushResult2);
     } catch (e) {
         setFailed(e);
     }
