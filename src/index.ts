@@ -10,6 +10,7 @@ async function run() {
 
         await exec('git fetch');
         await exec('git rebase origin/master');
+        await exec('git push --force-with-lease');
     } catch (e) {
         await exec('git status');
         await exec('git diff');
