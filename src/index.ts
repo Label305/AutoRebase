@@ -10,6 +10,9 @@ async function run() {
         const rebaseResult = await exec('git rebase origin/master');
         console.log(rebaseResult);
     } catch (e) {
+        console.log(await exec('git status'));
+        console.log(await exec('git diff'));
+
         setFailed(e);
     }
 }
