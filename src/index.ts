@@ -3,6 +3,9 @@ import {exec} from '@actions/exec';
 
 async function run() {
     try {
+        await exec('git config user.name "Aimbot"');
+        await exec('git config user.email "aimbot@305.nl"');
+
         await exec('touch new_file');
         const statusResult = await exec('git status');
         console.log(statusResult);
