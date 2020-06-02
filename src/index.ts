@@ -7,6 +7,9 @@ async function run() {
 
     const commitResult = await execProcess.execute('git commit -am "New file"');
     console.log(commitResult);
+
+    const pushResult = await execProcess.execute('git push');
+    console.log(pushResult);
 }
 
 run();
