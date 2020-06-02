@@ -1,16 +1,28 @@
-import {GitHub, context} from '@actions/github';
-import {getInput} from '@actions/core';
+import {setFailed} from '@actions/core';
+import {exec} from '@actions/exec';
 
 async function run() {
-    const githubToken = getInput('github_token');
-    const octokit: GitHub = new GitHub(githubToken);
+    try {
+        await exec('git config user.name "Jenkins305"');
+        await exec('git config user.email "joris+jenkins@label305.com"');
 
-    const owner = context.repo.owner;
-    const repo = context.repo.repo;
+        await exec('touch new_file');
+        const statusResult = await exec('git status');
+        console.log(statusResult);
 
-    const pullsResult = await octokit.pulls.list({owner, repo});
-    const pullsData = pullsResult.data;
-    console.log(pullsData);
+        await exec('git add -A');
+        const commitResult = await exec('git commit -am "New file"');
+        console.log(commitResult);
+
+        const pushResult = await exec('git push');
+        console.log(pushResult);
+
+        await exec('git reset --hard HEAD^');
+        const pushResult2 = await exec('git push --force-with-lease');
+        console.log(pushResult2);
+    } catch (e) {
+        setFailed(e);
+    }
 }
 
 run();
