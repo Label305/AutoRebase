@@ -10,6 +10,7 @@ async function run() {
         const statusResult = await exec('git status');
         console.log(statusResult);
 
+        await exec('git add -A');
         const commitResult = await exec('git commit -am "New file"');
         console.log(commitResult);
 
