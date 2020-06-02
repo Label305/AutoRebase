@@ -1,16 +1,10 @@
-import {setFailed} from '@actions/core';
+import {rebaseAndPush} from './rebase_and_push';
 import {exec} from '@actions/exec';
+import {setFailed} from '@actions/core';
 
 async function run() {
     try {
-        await exec('git config user.name "Jenkins305"');
-        await exec('git config user.email "joris+jenkins@label305.com"');
-
-        await exec('git status');
-
-        await exec('git fetch');
-        await exec('git rebase origin/master');
-        await exec('git push --force-with-lease');
+        await rebaseAndPush('origin/master');
     } catch (e) {
         await exec('git status');
         await exec('git diff');
