@@ -6,6 +6,8 @@ async function run() {
         await exec('git config user.name "Jenkins305"');
         await exec('git config user.email "joris+jenkins@label305.com"');
 
+        console.log(await exec('git status'));
+
         await exec('git fetch');
         const rebaseResult = await exec('git rebase origin/master');
         console.log(rebaseResult);
