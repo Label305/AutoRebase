@@ -3,7 +3,7 @@ const core = require('@actions/core');
 
 async function run() {
     const githubToken = core.getInput('github_token');
-    const octokit = new github.GitHub(githubToken);
+    const octokit: GitHub = new github.GitHub(githubToken);
 
     const owner = github.context.repo.owner
     const repo = github.context.repo.repo
