@@ -1,5 +1,5 @@
 name: 'My first github action'
-description: 'This is my first github actin'
+description: 'This is my first github action'
 
 inputs:
   github_token:
@@ -8,4 +8,4 @@ inputs:
 
 runs:
   using: 'node12'
-  main: 'index.js'
+  main: 'dist/index.js'
