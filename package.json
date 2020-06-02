@@ -23,5 +23,8 @@
     "@actions/github": "^2.2.0",
     "@zeit/ncc": "^0.22.3",
     "typescript": "^3.9.3"
+  },
+  "devDependencies": {
+    "prettier": "^2.0.5"
   }
 }
