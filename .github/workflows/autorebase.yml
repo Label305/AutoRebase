@@ -5,7 +5,7 @@ on:
       - master
 
 jobs:
-  my_first_github_action_job:
+  auto-rebase:
     runs-on: ubuntu-latest
     name: Rebase out-of-date pull requests
     steps:
