@@ -29,6 +29,7 @@
     "typescript": "^3.9.3"
   },
   "devDependencies": {
+    "jest": "^26.0.1",
     "prettier": "^2.0.5"
   }
 }
