@@ -1,9 +1,13 @@
-on: [push]
+on:
+  push:
+    branches:
+      - trigger
+      - master
 
 jobs:
   my_first_github_action_job:
     runs-on: ubuntu-latest
-    name: My first job
+    name: Rebase out-of-date pull requests
     steps:
       - name: Checkout
         uses: actions/checkout@v2
@@ -16,4 +20,4 @@ jobs:
       - name: Run index.ts
         uses: ./ # Uses an action in the root directory
         with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
+          github_token: ${{ secrets.REBASE_TOKEN }}
