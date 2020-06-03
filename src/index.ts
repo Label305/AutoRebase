@@ -4,13 +4,18 @@ import Webhooks from '@octokit/webhooks';
 import {EligiblePullRequestsRetriever} from './EligiblePullRequests/eligiblePullRequestsRetriever';
 import {Rebaser} from './rebaser';
 import {TestableEligiblePullRequestsRetriever} from './EligiblePullRequests/testableEligiblePullRequestsRetriever';
-import {GithubOpenPullRequestsProvider} from './EligiblePullRequests/githubOpenPullRequestsProvider';
+import {GithubOpenPullRequestsProvider} from './Github/githubOpenPullRequestsProvider';
+import {GithubMergeableStateProvider} from './Github/githubMergeableStateProvider';
+import {GithubGetPullRequestService} from './Github/Api/getPullRequestService';
 
 async function run() {
     try {
         let github = new GitHub(getInput('github_token'));
         let eligiblePullRequestsRetriever: EligiblePullRequestsRetriever = new TestableEligiblePullRequestsRetriever(
-            new GithubOpenPullRequestsProvider(github),
+            new GithubOpenPullRequestsProvider(
+                github,
+                new GithubMergeableStateProvider(new GithubGetPullRequestService(github)),
+            ),
         );
         let rebaser = new Rebaser(github);
 

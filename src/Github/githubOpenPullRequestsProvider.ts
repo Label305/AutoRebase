@@ -1,14 +1,16 @@
 import {GitHub} from '@actions/github';
-import {OpenPullRequestsProvider} from './testableEligiblePullRequestsRetriever';
-import {MergeableState, PullRequestInfo} from '../pullrequestinfo';
-import {debug} from '@actions/core';
+import {OpenPullRequestsProvider} from '../EligiblePullRequests/testableEligiblePullRequestsRetriever';
+import {PullRequestInfo} from '../pullrequestinfo';
 import {mapAsync} from '../utils';
+import {GithubMergeableStateProvider} from './githubMergeableStateProvider';
 
 export class GithubOpenPullRequestsProvider implements OpenPullRequestsProvider {
     private github: GitHub;
+    private mergeableStateProvider: GithubMergeableStateProvider;
 
-    constructor(github: GitHub) {
+    constructor(github: GitHub, mergeableStateProvider: GithubMergeableStateProvider) {
         this.github = github;
+        this.mergeableStateProvider = mergeableStateProvider;
     }
 
     async openPullRequests(ownerName: string, repoName: string): Promise<PullRequestInfo[]> {
@@ -28,7 +30,11 @@ export class GithubOpenPullRequestsProvider implements OpenPullRequestsProvider 
         repoName: string,
         pullRequestNumber: number,
     ): Promise<PullRequestInfo> {
-        const mergeableState = await this.mergeableStateFor(ownerName, repoName, pullRequestNumber);
+        const mergeableState = await this.mergeableStateProvider.mergeableStateFor(
+            ownerName,
+            repoName,
+            pullRequestNumber,
+        );
 
         return {
             ownerName: ownerName,
@@ -36,21 +42,5 @@ export class GithubOpenPullRequestsProvider implements OpenPullRequestsProvider 
             number: pullRequestNumber,
             mergeableState: mergeableState,
         };
-    }
-
-    private async mergeableStateFor(
-        ownerName: string,
-        repoName: string,
-        pullRequestNumber: number,
-    ): Promise<MergeableState> {
-        const {
-            data: {mergeable_state: mergeableState},
-        } = await this.github.pulls.get({
-            owner: ownerName,
-            pull_number: pullRequestNumber,
-            repo: repoName,
-        });
-
-        return mergeableState as MergeableState;
     }
 }
