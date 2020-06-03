@@ -1,1 +1,1 @@
-My first Github action
+# Auto-rebase
