@@ -22,6 +22,7 @@
     "@actions/core": "^1.2.4",
     "@actions/exec": "^1.0.4",
     "@actions/github": "^2.2.0",
+    "@octokit/webhooks": "^7.6.2",
     "@zeit/ncc": "^0.22.3",
     "typescript": "^3.9.3"
   },

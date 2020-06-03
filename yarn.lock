@@ -148,6 +148,13 @@
   dependencies:
     "@types/node" ">= 8"
 
+"@octokit/webhooks@^7.6.2":
+  version "7.6.2"
+  resolved "https://registry.yarnpkg.com/@octokit/webhooks/-/webhooks-7.6.2.tgz#3f5ed0b11598750fbab9d7775d84ee45b37803c9"
+  integrity sha512-zZkOWMqsQWhNsT+sCwJ3EBO8WOFkmyf5IxdRY3VqDd5xHPNIvjXOoeLmMgUV01rjo7hmKCiwdZffY96KAbCGOg==
+  dependencies:
+    debug "^4.0.0"
+
 "@types/node@>= 8":
   version "14.0.9"
   resolved "https://registry.yarnpkg.com/@types/node/-/node-14.0.9.tgz#43896ab87fc82bda1dfd600cdf44a0c8a64e11d2"
@@ -183,6 +190,13 @@ cross-spawn@^6.0.0:
     semver "^5.5.0"
     shebang-command "^1.2.0"
     which "^1.2.9"
+
+debug@^4.0.0:
+  version "4.1.1"
+  resolved "https://registry.yarnpkg.com/debug/-/debug-4.1.1.tgz#3b72260255109c6b589cee050f1d516139664791"
+  integrity sha512-pYAIzeRo8J6KPEaJ0VWOh5Pzkbw/RetuzehGM7QRRX5he4fPHx2rdKMB256ehJCkX+XRQm16eZLqLNS8RSZXZw==
+  dependencies:
+    ms "^2.1.1"
 
 deprecation@^2.0.0, deprecation@^2.3.1:
   version "2.3.1"
@@ -257,6 +271,11 @@ macos-release@^2.2.0:
   version "2.3.0"
   resolved "https://registry.yarnpkg.com/macos-release/-/macos-release-2.3.0.tgz#eb1930b036c0800adebccd5f17bc4c12de8bb71f"
   integrity sha512-OHhSbtcviqMPt7yfw5ef5aghS2jzFVKEFyCJndQt2YpSQ9qRVSEv2axSJI1paVThEu+FFGs584h/1YhxjVqajA==
+
+ms@^2.1.1:
+  version "2.1.2"
+  resolved "https://registry.yarnpkg.com/ms/-/ms-2.1.2.tgz#d09d1f357b443f493382a8eb3ccd183872ae6009"
+  integrity sha512-sGkPx+VjMtmA6MX27oA4FBFELFCZZ4S4XqeGOXCv68tT+jb3vk/RyaKWP0PTKyWtmLSM0b+adUTEvbs1PEaH2w==
 
 nice-try@^1.0.4:
   version "1.0.5"
