@@ -27,6 +27,7 @@
     "@octokit/webhooks": "^7.6.2",
     "@zeit/ncc": "^0.22.3",
     "github-rebase": "^1.1.0",
+    "promise-retry": "^1.1.1",
     "typescript": "^3.9.3"
   },
   "devDependencies": {
