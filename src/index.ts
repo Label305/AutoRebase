@@ -1,26 +1,14 @@
-import {setFailed} from '@actions/core';
+import {rebaseAndPush} from './rebase_and_push';
 import {exec} from '@actions/exec';
+import {setFailed} from '@actions/core';
 
 async function run() {
     try {
-        await exec('git config user.name "Jenkins305"');
-        await exec('git config user.email "joris+jenkins@label305.com"');
-
-        await exec('touch new_file');
-        const statusResult = await exec('git status');
-        console.log(statusResult);
-
-        await exec('git add -A');
-        const commitResult = await exec('git commit -am "New file"');
-        console.log(commitResult);
-
-        const pushResult = await exec('git push');
-        console.log(pushResult);
-
-        await exec('git reset --hard HEAD^');
-        const pushResult2 = await exec('git push --force-with-lease');
-        console.log(pushResult2);
+        await rebaseAndPush('origin/master');
     } catch (e) {
+        await exec('git status');
+        await exec('git diff');
+
         setFailed(e);
     }
 }
