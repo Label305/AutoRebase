@@ -22,8 +22,10 @@
     "@actions/core": "^1.2.4",
     "@actions/exec": "^1.0.4",
     "@actions/github": "^2.2.0",
+    "@octokit/types": "^4.1.5",
     "@octokit/webhooks": "^7.6.2",
     "@zeit/ncc": "^0.22.3",
+    "github-rebase": "^1.1.0",
     "typescript": "^3.9.3"
   },
   "devDependencies": {

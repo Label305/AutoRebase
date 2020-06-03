@@ -1,5 +1,5 @@
-name: 'My first github action'
-description: 'This is my first github action'
+name: 'Auto rebase'
+description: 'Automatically rebases pull requests that are out-of-date.'
 
 inputs:
   github_token:
