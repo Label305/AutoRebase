@@ -1,10 +1,11 @@
 import {GitHub} from '@actions/github';
+import {PullRequestInfo} from '../pullrequestinfo';
 import {debug} from '@actions/core';
 import {Octokit} from '@octokit/rest';
-import {filterAsync} from './utils';
-import {PullRequestInfo} from './pullrequestinfo';
+import {filterAsync} from '../utils';
+import {EligiblePullRequestsRetriever} from './eligiblePullRequestsRetriever';
 
-export class EligiblePullRequestsRetriever {
+export class GithubEligiblePullRequestsRetriever implements EligiblePullRequestsRetriever {
     private github: GitHub;
 
     constructor(github: GitHub) {
@@ -31,6 +32,7 @@ export class EligiblePullRequestsRetriever {
                 ownerName: ownerName,
                 repoName: repoName,
                 number: value.number,
+                mergeableState: 'unknown',
             };
         });
     }
