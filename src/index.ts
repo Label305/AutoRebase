@@ -3,13 +3,14 @@ import {context, GitHub} from '@actions/github';
 import Webhooks from '@octokit/webhooks';
 import {EligiblePullRequestsRetriever} from './EligiblePullRequests/eligiblePullRequestsRetriever';
 import {Rebaser} from './rebaser';
-import {GithubEligiblePullRequestsRetriever} from './EligiblePullRequests/githubEligiblePullRequestsRetriever';
+import {TestableEligiblePullRequestsRetriever} from './EligiblePullRequests/testableEligiblePullRequestsRetriever';
+import {GithubOpenPullRequestsProvider} from './EligiblePullRequests/githubOpenPullRequestsProvider';
 
 async function run() {
     try {
         let github = new GitHub(getInput('github_token'));
-        let eligiblePullRequestsRetriever: EligiblePullRequestsRetriever = new GithubEligiblePullRequestsRetriever(
-            github,
+        let eligiblePullRequestsRetriever: EligiblePullRequestsRetriever = new TestableEligiblePullRequestsRetriever(
+            new GithubOpenPullRequestsProvider(github),
         );
         let rebaser = new Rebaser(github);
 
