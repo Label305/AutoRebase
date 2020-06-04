@@ -12,7 +12,7 @@ export class GithubPullRequestInfoProvider {
         pullRequestNumber: number,
     ): Promise<PullRequestInfo> {
         return promiseRetry<PullRequestInfo>(
-            async (): Promise<PullRequestInfo> => {
+            async (attemptNumber): Promise<PullRequestInfo> => {
                 try {
                     const {rebaseable, mergeableState, labels} = await this.getPullRequestService.getPullRequest(
                         ownerName,
@@ -20,13 +20,11 @@ export class GithubPullRequestInfoProvider {
                         pullRequestNumber,
                     );
 
-                    if (mergeableState === undefined) {
-                        throw Error('mergeableState is undefined');
-                    }
-
-                    if (mergeableState === 'unknown' || !mergeableStates.includes(mergeableState)) {
-                        debug(`mergeableState for pull request #${pullRequestNumber} is 'unknown', retrying.`);
-                        throw Error("mergeableState is 'unknown'");
+                    if (attemptNumber < 10) {
+                        if (mergeableState === 'unknown' || !mergeableStates.includes(mergeableState)) {
+                            debug(`mergeableState for pull request #${pullRequestNumber} is 'unknown', retrying.`);
+                            throw Error("mergeableState is 'unknown'");
+                        }
                     }
 
                     debug(`rebaseable value for pull request #${pullRequestNumber}: ${String(rebaseable)}`);

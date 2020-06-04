@@ -54,4 +54,21 @@ describe('The pull request info is retried', () => {
         /* Then */
         expect(result.mergeableState).toBe('behind');
     });
+
+    it('a maximum of 10 times, then the original result is propagated', async () => {
+        /* Given */
+        for (let i = 0; i < 10; i++) {
+            getPullRequestService.results.push({
+                rebaseable: true,
+                mergeableState: 'unknown',
+                labels: [],
+            });
+        }
+
+        /* When */
+        const result = await provider.pullRequestInfoFor('owner', 'repo', 3);
+
+        /* Then */
+        expect(result.mergeableState).toBe('unknown');
+    });
 });
