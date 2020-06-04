@@ -1,42 +1,41 @@
 import {GetPullRequestService} from './Api/getPullRequestService';
 import {MergeableState, mergeableStates} from '../pullrequestinfo';
 import {debug} from '@actions/core';
-
-// tslint:disable-next-line:no-var-requires (otherwise we get the error TS2497).
-const promiseRetry = require('promise-retry');
+import {promiseRetry} from '../Util/promiseRetry';
 
 export class GithubMergeableStateProvider {
-    private getPullRequestService: GetPullRequestService;
+    constructor(private getPullRequestService: GetPullRequestService) {}
 
-    constructor(getPullRequestService: GetPullRequestService) {
-        this.getPullRequestService = getPullRequestService;
-    }
-
-    async mergeableStateFor(ownerName: string, repoName: string, pullRequestNumber: number): Promise<MergeableState> {
-        return promiseRetry(
-            async (retry: (error: any) => void) => {
+    public mergeableStateFor(ownerName: string, repoName: string, pullRequestNumber: number): Promise<MergeableState> {
+        return promiseRetry<MergeableState>(
+            async (): Promise<MergeableState> => {
                 try {
-                    const {mergeable_state: mergeable_state} = await this.getPullRequestService.getPullRequest(
+                    const {mergeableState} = await this.getPullRequestService.getPullRequest(
                         ownerName,
                         repoName,
                         pullRequestNumber,
                     );
 
-                    if (mergeable_state == 'unknown' || !mergeableStates.includes(mergeable_state as MergeableState)) {
-                        debug(`mergeable_state for pull request #${pullRequestNumber} is 'unknown', retrying.`);
-                        return retry(Error("mergeable_state is 'unknown'"));
+                    if (mergeableState === undefined) {
+                        throw Error('mergeableState is undefined');
                     }
 
-                    debug(`mergeable_state for pull request #${pullRequestNumber}: ${mergeable_state}`);
-                    return mergeable_state;
+                    if (mergeableState === 'unknown' || !mergeableStates.includes(mergeableState)) {
+                        debug(`mergeableState for pull request #${pullRequestNumber} is 'unknown', retrying.`);
+                        throw Error("mergeableState is 'unknown'");
+                    }
+
+                    debug(`mergeableState for pull request #${pullRequestNumber}: ${mergeableState}`);
+                    return mergeableState;
                 } catch (error) {
                     debug(
-                        `Fetching mergeable_state for pull request #${pullRequestNumber} failed: "${error}", retrying.`,
+                        `Fetching mergeableState for pull request #${pullRequestNumber} failed: "${String(
+                            error,
+                        )}", retrying.`,
                     );
-                    return retry(error);
+                    throw error;
                 }
             },
-            {minTimeout: 500},
         );
     }
 }

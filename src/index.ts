@@ -8,18 +8,18 @@ import {GithubOpenPullRequestsProvider} from './Github/githubOpenPullRequestsPro
 import {GithubMergeableStateProvider} from './Github/githubMergeableStateProvider';
 import {GithubGetPullRequestService} from './Github/Api/getPullRequestService';
 
-async function run() {
+async function run(): Promise<void> {
     try {
-        let github = new GitHub(getInput('github_token'));
-        let eligiblePullRequestsRetriever: EligiblePullRequestsRetriever = new TestableEligiblePullRequestsRetriever(
+        const github = new GitHub(getInput('github_token'));
+        const eligiblePullRequestsRetriever: EligiblePullRequestsRetriever = new TestableEligiblePullRequestsRetriever(
             new GithubOpenPullRequestsProvider(
                 github,
                 new GithubMergeableStateProvider(new GithubGetPullRequestService(github)),
             ),
         );
-        let rebaser = new Rebaser(github);
+        const rebaser = new Rebaser(github);
 
-        let payload = context.payload as Webhooks.WebhookPayloadPush;
+        const payload = context.payload as Webhooks.WebhookPayloadPush;
 
         const ownerName = payload.repository.owner.name!;
         const repoName = payload.repository.name;
@@ -32,4 +32,4 @@ async function run() {
     }
 }
 
-run();
+void run();

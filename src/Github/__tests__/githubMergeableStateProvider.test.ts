@@ -1,6 +1,6 @@
-import {GithubMergeableStateProvider} from '../../Github/githubMergeableStateProvider';
-import {GetPullRequestService} from '../../Github/Api/getPullRequestService';
-import {ApiPullRequest} from '../../Github/Api/apiPullRequest';
+import {GithubMergeableStateProvider} from '../githubMergeableStateProvider';
+import {GetPullRequestService} from '../Api/getPullRequestService';
+import {ApiPullRequest} from '../Api/apiPullRequest';
 import each from 'jest-each';
 
 class TestGetPullRequestService implements GetPullRequestService {
@@ -16,31 +16,31 @@ const provider = new GithubMergeableStateProvider(getPullRequestService);
 
 describe('The mergeableState is propagated', () => {
     each([['behind'], ['blocked'], ['clean'], ['dirty'], ['unstable']]).it(
-        "when the mergeable_state is '%s'",
-        async (mergeable_state) => {
+        "when the mergeableState is '%s'",
+        async (mergeableState) => {
             /* Given */
             getPullRequestService.results.push({
-                mergeable_state: mergeable_state,
+                mergeableState: mergeableState,
             });
 
             /* When */
             const result = await provider.mergeableStateFor('owner', 'repo', 3);
 
             /* Then */
-            expect(result).toBe(mergeable_state);
+            expect(result).toBe(mergeableState);
         },
     );
 });
 
 describe('The mergeableState is retried', () => {
-    each([['unknown'], ['invalid']]).it("when the mergeable_state is '%s'", async (mergeable_state) => {
+    each([['unknown'], ['invalid']]).it("when the mergeableState is '%s'", async (mergeableState) => {
         /* Given */
         getPullRequestService.results.push({
-            mergeable_state: mergeable_state,
+            mergeableState: mergeableState,
         });
 
         getPullRequestService.results.push({
-            mergeable_state: 'behind',
+            mergeableState: 'behind',
         });
 
         /* When */
