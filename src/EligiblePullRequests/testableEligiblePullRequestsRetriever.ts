@@ -20,10 +20,10 @@ export class TestableEligiblePullRequestsRetriever implements EligiblePullReques
         debug(`Found ${pullRequests.length} open pull requests.`);
 
         const results = pullRequests.filter((value) => {
-            return value.mergeableState === 'behind';
+            return value.mergeableState === 'behind' && value.labels.includes('opt-in:autorebase');
         });
 
-        debug(`${results.length} pull requests are behind.`);
+        debug(`${results.length} pull requests are eligible.`);
 
         return results;
     }

@@ -25,14 +25,15 @@ test('Without open pull requests there are no eligible pull requests', async () 
 });
 
 describe('A pull request is eligible', () => {
-    each([['behind']]).it("when the mergeableState is '%s'", async (mergeableState: MergeableState) => {
+    it("when the mergeableState is 'behind' and it has the label 'opt-in:autorebase'", async () => {
         /* Given */
         testOpenPullRequestsProvider.openPullRequestsValue = [
             {
                 ownerName: 'owner',
                 repoName: 'repo',
                 number: 3,
-                mergeableState: mergeableState,
+                mergeableState: 'behind',
+                labels: ['opt-in:autorebase'],
             },
         ];
 
@@ -45,7 +46,8 @@ describe('A pull request is eligible', () => {
                 ownerName: 'owner',
                 repoName: 'repo',
                 number: 3,
-                mergeableState: mergeableState,
+                mergeableState: 'behind',
+                labels: ['opt-in:autorebase'],
             },
         ]);
     });
@@ -62,6 +64,7 @@ describe('A pull request is not eligible', () => {
                     repoName: 'repo',
                     number: 3,
                     mergeableState: mergeableState,
+                    labels: ['opt-in:autorebase'],
                 },
             ];
 
@@ -72,4 +75,23 @@ describe('A pull request is not eligible', () => {
             expect(results).toStrictEqual([]);
         },
     );
+
+    it("when it doesn't have the 'opt-in:autorebase' label", async () => {
+        /* Given */
+        testOpenPullRequestsProvider.openPullRequestsValue = [
+            {
+                ownerName: 'owner',
+                repoName: 'repo',
+                number: 3,
+                mergeableState: 'behind',
+                labels: [],
+            },
+        ];
+
+        /* When */
+        const results = await retriever.findEligiblePullRequests('owner', 'repo');
+
+        /* Then */
+        expect(results).toStrictEqual([]);
+    });
 });
