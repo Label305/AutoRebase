@@ -1,5 +1,5 @@
 import {PullRequestInfo} from './pullrequestinfo';
-import {debug} from '@actions/core';
+import {debug, info} from '@actions/core';
 import {rebasePullRequest} from 'github-rebase/lib';
 import {Octokit} from '@octokit/rest';
 import {GitHub} from '@actions/github';
@@ -31,9 +31,9 @@ export class Rebaser {
                 repo: pullRequest.repoName,
             });
 
-            debug(`Rebase success for ${JSON.stringify(pullRequest)}`);
+            info(`${JSON.stringify(pullRequest)} was successfully rebased.`);
         } catch (e) {
-            throw new Error(`Error for ${JSON.stringify(pullRequest)}: ${String(e)}`);
+            throw new Error(`Error while rebasing for ${JSON.stringify(pullRequest)}: ${String(e)}`);
         }
     }
 }
