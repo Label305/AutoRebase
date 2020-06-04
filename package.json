@@ -47,12 +47,10 @@
     "lint-staged": {
         "*.{ts,tsx}": [
             "prettier --write",
-            "eslint --fix --ext js,ts,tsx src",
-            "git add"
+            "eslint --fix --ext js,ts,tsx src"
         ],
         "*.{json,css,scss,md,graphl,js,jsx}": [
-            "prettier --write",
-            "git add"
+            "prettier --write"
         ]
     },
     "husky": {
