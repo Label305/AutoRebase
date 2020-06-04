@@ -1,7 +1,7 @@
 import {Labeler, LabelPullRequestService} from '../labeler';
 import {OpenPullRequestsProvider} from '../../EligiblePullRequests/testableEligiblePullRequestsRetriever';
 import {PullRequestInfo} from '../../pullrequestinfo';
-import {NON_REBASEABLE_LABEL} from '../../labels';
+import {NON_REBASEABLE_LABEL, OPT_IN_LABEL} from '../../labels';
 
 const pullRequests: Map<number, PullRequestInfo> = new Map();
 
@@ -41,14 +41,14 @@ describe('A pull request gets labeled when', () => {
             number: 3,
             rebaseable: false,
             mergeableState: 'behind',
-            labels: [],
+            labels: [OPT_IN_LABEL],
         });
 
         /* When */
         await labeler.labelNonRebaseablePullRequests('owner', 'repo');
 
         /* Then */
-        expect(pullRequests.get(3)!.labels).toStrictEqual([NON_REBASEABLE_LABEL]);
+        expect(pullRequests.get(3)!.labels).toContain(NON_REBASEABLE_LABEL);
     });
 });
 
@@ -80,6 +80,26 @@ describe('A pull request does not get labeled when', () => {
             rebaseable: false,
             mergeableState: 'behind',
             labels: [NON_REBASEABLE_LABEL],
+        });
+
+        const addLabelSpy = spyOn(labelPullRequestService, 'addLabel');
+
+        /* When */
+        await labeler.labelNonRebaseablePullRequests('owner', 'repo');
+
+        /* Then */
+        expect(addLabelSpy).not.toHaveBeenCalled();
+    });
+
+    it(`it is not rebaseable but it does not have the label '${OPT_IN_LABEL}'`, async () => {
+        /* Given */
+        pullRequests.set(3, {
+            ownerName: 'owner',
+            repoName: 'repo',
+            number: 3,
+            rebaseable: false,
+            mergeableState: 'behind',
+            labels: [],
         });
 
         const addLabelSpy = spyOn(labelPullRequestService, 'addLabel');

@@ -37,7 +37,10 @@ export class Labeler {
 
     private async addLabels(pullRequests: PullRequestInfo[], ownerName: string, repoName: string) {
         const toBeLabeled = pullRequests.filter(
-            (value) => !value.rebaseable && !value.labels.includes(NON_REBASEABLE_LABEL),
+            (value) =>
+                !value.rebaseable &&
+                !value.labels.includes(NON_REBASEABLE_LABEL) &&
+                value.labels.includes(OPT_IN_LABEL),
         );
 
         if (toBeLabeled.length > 0) {
