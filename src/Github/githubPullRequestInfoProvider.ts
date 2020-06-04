@@ -14,7 +14,7 @@ export class GithubPullRequestInfoProvider {
         return promiseRetry<PullRequestInfo>(
             async (attemptNumber): Promise<PullRequestInfo> => {
                 try {
-                    const {rebaseable, mergeableState, labels} = await this.getPullRequestService.getPullRequest(
+                    const {draft, rebaseable, mergeableState, labels} = await this.getPullRequestService.getPullRequest(
                         ownerName,
                         repoName,
                         pullRequestNumber,
@@ -34,6 +34,7 @@ export class GithubPullRequestInfoProvider {
                         ownerName: ownerName,
                         repoName: repoName,
                         number: pullRequestNumber,
+                        draft: draft,
                         rebaseable: rebaseable,
                         mergeableState: mergeableState,
                         labels: labels,

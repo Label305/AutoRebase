@@ -30,11 +30,6 @@ export class TestableEligiblePullRequestsRetriever implements EligiblePullReques
     }
 
     private static isEligible(pullRequestInfo: PullRequestInfo): boolean {
-        if (!pullRequestInfo.rebaseable) {
-            debug(`PR #${pullRequestInfo.number} is not rebaseable.`);
-            return false;
-        }
-
         if (pullRequestInfo.mergeableState !== 'behind') {
             debug(`PR #${pullRequestInfo.number} is not 'behind', but: '${pullRequestInfo.mergeableState}'.`);
             return false;
@@ -42,6 +37,16 @@ export class TestableEligiblePullRequestsRetriever implements EligiblePullReques
 
         if (!pullRequestInfo.labels.includes(OPT_IN_LABEL)) {
             debug(`PR #${pullRequestInfo.number} does not have the '${OPT_IN_LABEL}' label.`);
+            return false;
+        }
+
+        if (pullRequestInfo.draft) {
+            debug(`PR #${pullRequestInfo.number} is a draft PR.`);
+            return false;
+        }
+
+        if (!pullRequestInfo.rebaseable) {
+            debug(`PR #${pullRequestInfo.number} is not rebaseable.`);
             return false;
         }
 
