@@ -20,7 +20,7 @@ export class GithubPullRequestInfoProvider {
                         pullRequestNumber,
                     );
 
-                    if (attemptNumber < 10) {
+                    if (attemptNumber < 10 && !draft) {
                         if (mergeableState === 'unknown' || !mergeableStates.includes(mergeableState)) {
                             debug(`mergeableState for pull request #${pullRequestNumber} is 'unknown', retrying.`);
                             throw Error("mergeableState is 'unknown'");

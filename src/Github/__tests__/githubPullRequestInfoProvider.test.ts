@@ -32,6 +32,22 @@ describe('The pull request info is propagated', () => {
             expect(result.mergeableState).toBe(mergeableState);
         },
     );
+
+    it('if the draft status is true', async () => {
+        /* Given */
+        getPullRequestService.results.push({
+            draft: true,
+            rebaseable: true,
+            mergeableState: 'unknown',
+            labels: [],
+        });
+
+        /* When */
+        const result = await provider.pullRequestInfoFor('owner', 'repo', 3);
+
+        /* Then */
+        expect(result.mergeableState).toBe('unknown');
+    });
 });
 
 describe('The pull request info is retried', () => {
