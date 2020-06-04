@@ -7,13 +7,14 @@ import {TestableEligiblePullRequestsRetriever} from './EligiblePullRequests/test
 import {GithubOpenPullRequestsProvider} from './Github/githubOpenPullRequestsProvider';
 import {GithubMergeableStateProvider} from './Github/githubMergeableStateProvider';
 import {GithubGetPullRequestService} from './Github/Api/getPullRequestService';
+import {GithubListPullRequestsService} from './Github/Api/listPullRequestsService';
 
 async function run(): Promise<void> {
     try {
         const github = new GitHub(getInput('github_token'));
         const eligiblePullRequestsRetriever: EligiblePullRequestsRetriever = new TestableEligiblePullRequestsRetriever(
             new GithubOpenPullRequestsProvider(
-                github,
+                new GithubListPullRequestsService(github),
                 new GithubMergeableStateProvider(new GithubGetPullRequestService(github)),
             ),
         );

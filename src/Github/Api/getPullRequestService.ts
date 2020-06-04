@@ -1,9 +1,12 @@
-import {ApiPullRequest} from './apiPullRequest';
 import {GitHub} from '@actions/github';
 import {MergeableState} from '../../pullrequestinfo';
 
 export interface GetPullRequestService {
-    getPullRequest(ownerName: string, repoName: string, pullRequestNumber: number): Promise<ApiPullRequest>;
+    getPullRequest(ownerName: string, repoName: string, pullRequestNumber: number): Promise<ApiGetPullRequest>;
+}
+
+export interface ApiGetPullRequest {
+    mergeableState: MergeableState | undefined;
 }
 
 export class GithubGetPullRequestService implements GetPullRequestService {
@@ -13,7 +16,7 @@ export class GithubGetPullRequestService implements GetPullRequestService {
         ownerName: string,
         repoName: string,
         pullRequestNumber: number,
-    ): Promise<ApiPullRequest> {
+    ): Promise<ApiGetPullRequest> {
         const result = await this.github.pulls.get({
             owner: ownerName,
             repo: repoName,

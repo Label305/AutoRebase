@@ -1,12 +1,11 @@
 import {GithubMergeableStateProvider} from '../githubMergeableStateProvider';
-import {GetPullRequestService} from '../Api/getPullRequestService';
-import {ApiPullRequest} from '../Api/apiPullRequest';
+import {ApiGetPullRequest, GetPullRequestService} from '../Api/getPullRequestService';
 import each from 'jest-each';
 
 class TestGetPullRequestService implements GetPullRequestService {
-    results: ApiPullRequest[] = [];
+    results: ApiGetPullRequest[] = [];
 
-    async getPullRequest(ownerName: string, repoName: string, pullRequestNumber: number): Promise<ApiPullRequest> {
+    async getPullRequest(ownerName: string, repoName: string, pullRequestNumber: number): Promise<ApiGetPullRequest> {
         return this.results.shift()!;
     }
 }

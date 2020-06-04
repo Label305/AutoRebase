@@ -1,24 +1,17 @@
-import {GitHub} from '@actions/github';
 import {OpenPullRequestsProvider} from '../EligiblePullRequests/testableEligiblePullRequestsRetriever';
 import {PullRequestInfo} from '../pullrequestinfo';
 import {mapAsync} from '../utils';
 import {GithubMergeableStateProvider} from './githubMergeableStateProvider';
+import {ListPullRequestsService} from './Api/listPullRequestsService';
 
 export class GithubOpenPullRequestsProvider implements OpenPullRequestsProvider {
-    private github: GitHub;
-    private mergeableStateProvider: GithubMergeableStateProvider;
-
-    constructor(github: GitHub, mergeableStateProvider: GithubMergeableStateProvider) {
-        this.github = github;
-        this.mergeableStateProvider = mergeableStateProvider;
-    }
+    constructor(
+        private listPullRequestsService: ListPullRequestsService,
+        private mergeableStateProvider: GithubMergeableStateProvider,
+    ) {}
 
     async openPullRequests(ownerName: string, repoName: string): Promise<PullRequestInfo[]> {
-        const {data: pullRequests} = await this.github.pulls.list({
-            owner: ownerName,
-            repo: repoName,
-            state: 'open',
-        });
+        const pullRequests = await this.listPullRequestsService.listOpenPullRequests(ownerName, repoName);
 
         return await mapAsync(pullRequests, async (value) => {
             return this.pullRequestInfoFor(ownerName, repoName, value.number);
