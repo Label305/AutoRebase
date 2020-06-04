@@ -3,6 +3,10 @@
     "version": "1.0.0",
     "description": "",
     "main": "src/index.ts",
+    "files": [
+        "action.yml",
+        "dist"
+    ],
     "scripts": {
         "build": "ncc build src/index.ts --minify --v8-cache",
         "test": "yarn lint && jest",
