@@ -13,12 +13,19 @@ export class GithubLabelPullRequestService implements LabelPullRequestService {
         return labels.map((value) => value.name);
     }
 
-    async createLabel(ownerName: string, repoName: string, label: string, color: string): Promise<void> {
+    async createLabel(
+        ownerName: string,
+        repoName: string,
+        label: string,
+        color: string,
+        description: string,
+    ): Promise<void> {
         await this.github.issues.createLabel({
             owner: ownerName,
             repo: repoName,
             name: label,
             color: color,
+            description: description,
         });
     }
 

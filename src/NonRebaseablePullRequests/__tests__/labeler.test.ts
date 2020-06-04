@@ -16,7 +16,13 @@ class TestLabelPullRequestService implements LabelPullRequestService {
         return [];
     }
 
-    async createLabel(ownerName: string, repoName: string, label: string, color: string): Promise<void> {}
+    async createLabel(
+        ownerName: string,
+        repoName: string,
+        label: string,
+        color: string,
+        description: string,
+    ): Promise<void> {}
 
     async addLabel(ownerName: string, repoName: string, pullRequestNumber: number, label: string): Promise<void> {
         const pullRequest = pullRequests.get(pullRequestNumber)!;
