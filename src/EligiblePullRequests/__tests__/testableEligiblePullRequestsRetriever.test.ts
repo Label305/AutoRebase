@@ -4,6 +4,7 @@ import {
 } from '../testableEligiblePullRequestsRetriever';
 import {MergeableState, PullRequestInfo} from '../../pullrequestinfo';
 import each from 'jest-each';
+import {OPT_IN_LABEL} from '../../labels';
 
 class TestOpenPullRequestsProvider implements OpenPullRequestsProvider {
     openPullRequestsValue: PullRequestInfo[] = [];
@@ -25,7 +26,7 @@ test('Without open pull requests there are no eligible pull requests', async () 
 });
 
 describe('A pull request is eligible', () => {
-    it("when it is rebaseable, the mergeableState is 'behind' and it has the label 'opt-in:autorebase'", async () => {
+    it(`when it is rebaseable, the mergeableState is 'behind' and it has the label '${OPT_IN_LABEL}'`, async () => {
         /* Given */
         testOpenPullRequestsProvider.openPullRequestsValue = [
             {
@@ -34,7 +35,7 @@ describe('A pull request is eligible', () => {
                 number: 3,
                 rebaseable: true,
                 mergeableState: 'behind',
-                labels: ['opt-in:autorebase'],
+                labels: [OPT_IN_LABEL],
             },
         ];
 
@@ -49,7 +50,7 @@ describe('A pull request is eligible', () => {
                 number: 3,
                 rebaseable: true,
                 mergeableState: 'behind',
-                labels: ['opt-in:autorebase'],
+                labels: [OPT_IN_LABEL],
             },
         ]);
     });
@@ -65,7 +66,7 @@ describe('A pull request is not eligible', () => {
                 number: 3,
                 rebaseable: false,
                 mergeableState: 'behind',
-                labels: ['opt-in:autorebase'],
+                labels: [OPT_IN_LABEL],
             },
         ];
 
@@ -87,7 +88,7 @@ describe('A pull request is not eligible', () => {
                     number: 3,
                     rebaseable: true,
                     mergeableState: mergeableState,
-                    labels: ['opt-in:autorebase'],
+                    labels: [OPT_IN_LABEL],
                 },
             ];
 
@@ -99,7 +100,7 @@ describe('A pull request is not eligible', () => {
         },
     );
 
-    it("when it doesn't have the 'opt-in:autorebase' label", async () => {
+    it(`when it doesn't have the '${OPT_IN_LABEL}' label`, async () => {
         /* Given */
         testOpenPullRequestsProvider.openPullRequestsValue = [
             {
