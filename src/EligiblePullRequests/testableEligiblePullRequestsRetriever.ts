@@ -1,6 +1,7 @@
 import {PullRequestInfo} from '../pullrequestinfo';
 import {EligiblePullRequestsRetriever} from './eligiblePullRequestsRetriever';
 import {debug} from '@actions/core';
+import {OPT_IN_LABEL} from '../labels';
 
 // Secondary port for [[TestableEligiblePullRequestsRetriever]]
 export interface OpenPullRequestsProvider {
@@ -39,8 +40,8 @@ export class TestableEligiblePullRequestsRetriever implements EligiblePullReques
             return false;
         }
 
-        if (!pullRequestInfo.labels.includes('opt-in:autorebase')) {
-            debug(`PR #${pullRequestInfo.number} does not have the 'opt-in:autorebase' label.`);
+        if (!pullRequestInfo.labels.includes(OPT_IN_LABEL)) {
+            debug(`PR #${pullRequestInfo.number} does not have the '${OPT_IN_LABEL}' label.`);
             return false;
         }
 

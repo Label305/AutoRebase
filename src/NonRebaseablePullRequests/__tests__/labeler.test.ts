@@ -1,6 +1,7 @@
 import {Labeler, LabelPullRequestService} from '../labeler';
 import {OpenPullRequestsProvider} from '../../EligiblePullRequests/testableEligiblePullRequestsRetriever';
 import {PullRequestInfo} from '../../pullrequestinfo';
+import {NON_REBASEABLE_LABEL} from '../../labels';
 
 const pullRequests: Map<number, PullRequestInfo> = new Map();
 
@@ -41,7 +42,7 @@ describe('A pull request gets labeled when', () => {
         await labeler.labelNonRebaseablePullRequests('owner', 'repo');
 
         /* Then */
-        expect(pullRequests.get(3)!.labels).toStrictEqual(['nonrebaseable']);
+        expect(pullRequests.get(3)!.labels).toStrictEqual([NON_REBASEABLE_LABEL]);
     });
 });
 
@@ -72,7 +73,7 @@ describe('A pull request does not get labeled when', () => {
             number: 3,
             rebaseable: false,
             mergeableState: 'behind',
-            labels: ['nonrebaseable'],
+            labels: [NON_REBASEABLE_LABEL],
         });
 
         const addLabelSpy = spyOn(labelPullRequestService, 'addLabel');
@@ -94,7 +95,7 @@ describe('The label gets removed from a pull request when', () => {
             number: 3,
             rebaseable: true,
             mergeableState: 'behind',
-            labels: ['nonrebaseable'],
+            labels: [NON_REBASEABLE_LABEL],
         });
 
         /* When */
@@ -114,14 +115,14 @@ describe('The label does not get removed from a pull request when', () => {
             number: 3,
             rebaseable: false,
             mergeableState: 'behind',
-            labels: ['nonrebaseable'],
+            labels: [NON_REBASEABLE_LABEL],
         });
 
         /* When */
         await labeler.labelNonRebaseablePullRequests('owner', 'repo');
 
         /* Then */
-        expect(pullRequests.get(3)!.labels).toStrictEqual(['nonrebaseable']);
+        expect(pullRequests.get(3)!.labels).toStrictEqual([NON_REBASEABLE_LABEL]);
     });
 
     it('it does not exist', async () => {
