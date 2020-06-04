@@ -20,11 +20,30 @@ export class TestableEligiblePullRequestsRetriever implements EligiblePullReques
         debug(`Found ${pullRequests.length} open pull requests.`);
 
         const results = pullRequests.filter((value) => {
-            return value.rebaseable && value.mergeableState === 'behind' && value.labels.includes('opt-in:autorebase');
+            return TestableEligiblePullRequestsRetriever.isEligible(value);
         });
 
         debug(`${results.length} pull requests are eligible.`);
 
         return results;
+    }
+
+    private static isEligible(pullRequestInfo: PullRequestInfo): boolean {
+        if (!pullRequestInfo.rebaseable) {
+            debug(`PR #${pullRequestInfo.number} is not rebaseable.`);
+            return false;
+        }
+
+        if (pullRequestInfo.mergeableState !== 'behind') {
+            debug(`PR #${pullRequestInfo.number} is not 'behind', but: '${pullRequestInfo.mergeableState}'.`);
+            return false;
+        }
+
+        if (!pullRequestInfo.labels.includes('opt-in:autorebase')) {
+            debug(`PR #${pullRequestInfo.number} does not have the 'opt-in:autorebase' label.`);
+            return false;
+        }
+
+        return true;
     }
 }
