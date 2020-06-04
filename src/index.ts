@@ -22,7 +22,7 @@ async function run(): Promise<void> {
 
         const payload = context.payload as Webhooks.WebhookPayloadPush;
 
-        const ownerName = payload.repository.owner.name!;
+        const ownerName = payload.repository.owner.login;
         const repoName = payload.repository.name;
 
         const pullRequests = await eligiblePullRequestsRetriever.findEligiblePullRequests(ownerName, repoName);
