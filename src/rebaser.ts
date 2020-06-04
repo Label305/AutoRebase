@@ -15,7 +15,7 @@ export class Rebaser {
         this.github = github;
     }
 
-    async rebasePullRequests(pullRequests: PullRequestInfo[]) {
+    public async rebasePullRequests(pullRequests: PullRequestInfo[]): Promise<void> {
         for (const pullRequest of pullRequests) {
             await this.rebase(pullRequest);
         }
@@ -25,7 +25,7 @@ export class Rebaser {
         debug(`Rebasing pull request ${JSON.stringify(pullRequest)}`);
         try {
             await rebasePullRequest({
-                octokit: (this.github as any) as Octokit,
+                octokit: (this.github as unknown) as Octokit,
                 owner: pullRequest.ownerName,
                 pullRequestNumber: pullRequest.number,
                 repo: pullRequest.repoName,
@@ -33,7 +33,7 @@ export class Rebaser {
 
             debug(`Rebase success for ${JSON.stringify(pullRequest)}`);
         } catch (e) {
-            throw new Error(`Error for ${JSON.stringify(pullRequest)}: ${e}`);
+            throw new Error(`Error for ${JSON.stringify(pullRequest)}: ${String(e)}`);
         }
     }
 }

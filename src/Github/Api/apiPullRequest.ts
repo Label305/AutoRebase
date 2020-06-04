@@ -1,3 +1,5 @@
-export type ApiPullRequest = {
-    mergeable_state: string | undefined;
-};
+import {MergeableState} from '../../pullrequestinfo';
+
+export interface ApiPullRequest {
+    mergeableState: MergeableState | undefined;
+}

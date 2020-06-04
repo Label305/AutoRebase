@@ -20,7 +20,7 @@ export class TestableEligiblePullRequestsRetriever implements EligiblePullReques
         debug(`Found ${pullRequests.length} open pull requests.`);
 
         const results = pullRequests.filter((value) => {
-            return value.mergeableState == 'behind';
+            return value.mergeableState === 'behind';
         });
 
         debug(`${results.length} pull requests are behind.`);

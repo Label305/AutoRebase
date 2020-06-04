@@ -1,7 +1,7 @@
 import {
     OpenPullRequestsProvider,
     TestableEligiblePullRequestsRetriever,
-} from '../../EligiblePullRequests/testableEligiblePullRequestsRetriever';
+} from '../testableEligiblePullRequestsRetriever';
 import {MergeableState, PullRequestInfo} from '../../pullrequestinfo';
 import each from 'jest-each';
 
@@ -18,7 +18,7 @@ const retriever = new TestableEligiblePullRequestsRetriever(testOpenPullRequests
 
 test('Without open pull requests there are no eligible pull requests', async () => {
     /* When */
-    let results = await retriever.findEligiblePullRequests('owner', 'repo');
+    const results = await retriever.findEligiblePullRequests('owner', 'repo');
 
     /* Then */
     expect(results).toStrictEqual([]);
@@ -37,7 +37,7 @@ describe('A pull request is eligible', () => {
         ];
 
         /* When */
-        let results = await retriever.findEligiblePullRequests('owner', 'repo');
+        const results = await retriever.findEligiblePullRequests('owner', 'repo');
 
         /* Then */
         expect(results).toStrictEqual([
@@ -66,7 +66,7 @@ describe('A pull request is not eligible', () => {
             ];
 
             /* When */
-            let results = await retriever.findEligiblePullRequests('owner', 'repo');
+            const results = await retriever.findEligiblePullRequests('owner', 'repo');
 
             /* Then */
             expect(results).toStrictEqual([]);

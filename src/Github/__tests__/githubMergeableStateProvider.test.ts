@@ -20,7 +20,7 @@ describe('The mergeableState is propagated', () => {
         async (mergeable_state) => {
             /* Given */
             getPullRequestService.results.push({
-                mergeable_state: mergeable_state,
+                mergeableState: mergeable_state,
             });
 
             /* When */
@@ -36,11 +36,11 @@ describe('The mergeableState is retried', () => {
     each([['unknown'], ['invalid']]).it("when the mergeable_state is '%s'", async (mergeable_state) => {
         /* Given */
         getPullRequestService.results.push({
-            mergeable_state: mergeable_state,
+            mergeableState: mergeable_state,
         });
 
         getPullRequestService.results.push({
-            mergeable_state: 'behind',
+            mergeableState: 'behind',
         });
 
         /* When */

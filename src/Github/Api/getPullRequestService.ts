@@ -7,13 +7,13 @@ export interface GetPullRequestService {
 }
 
 export class GithubGetPullRequestService implements GetPullRequestService {
-    private github: GitHub;
+    constructor(private github: GitHub) {}
 
-    constructor(github: GitHub) {
-        this.github = github;
-    }
-
-    async getPullRequest(ownerName: string, repoName: string, pullRequestNumber: number): Promise<ApiPullRequest> {
+    public async getPullRequest(
+        ownerName: string,
+        repoName: string,
+        pullRequestNumber: number,
+    ): Promise<ApiPullRequest> {
         const result = await this.github.pulls.get({
             owner: ownerName,
             repo: repoName,
@@ -21,7 +21,7 @@ export class GithubGetPullRequestService implements GetPullRequestService {
         });
 
         return {
-            mergeable_state: result.data.mergeable_state as MergeableState,
+            mergeableState: result.data.mergeable_state as MergeableState,
         };
     }
 }
