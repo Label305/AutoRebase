@@ -32,6 +32,8 @@ async function run(): Promise<void> {
         const pullRequests = await eligiblePullRequestsRetriever.findEligiblePullRequests(ownerName, repoName);
 
         await rebaser.rebasePullRequests(pullRequests);
+
+        await labeler.createOptInLabel(ownerName, repoName);
         await labeler.labelNonRebaseablePullRequests(ownerName, repoName);
     } catch (e) {
         setFailed(e);

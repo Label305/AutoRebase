@@ -12,6 +12,12 @@ class TestOpenPullRequestsProvider implements OpenPullRequestsProvider {
 }
 
 class TestLabelPullRequestService implements LabelPullRequestService {
+    async listLabels(ownerName: string, repoName: string): Promise<string[]> {
+        return [];
+    }
+
+    async createLabel(ownerName: string, repoName: string, label: string, color: string): Promise<void> {}
+
     async addLabel(ownerName: string, repoName: string, pullRequestNumber: number, label: string): Promise<void> {
         const pullRequest = pullRequests.get(pullRequestNumber)!;
         pullRequest.labels.push(label);
