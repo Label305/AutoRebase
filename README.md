@@ -5,3 +5,4 @@ Trigger a build using:
 ```
 echo . >> README.md && git commit -am "Update README" && git push
 ```
+.
