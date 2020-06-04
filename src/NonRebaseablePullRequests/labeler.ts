@@ -7,7 +7,7 @@ import {NON_REBASEABLE_LABEL, OPT_IN_LABEL} from '../labels';
 export interface LabelPullRequestService {
     listLabels(ownerName: string, repoName: string): Promise<string[]>;
 
-    createLabel(ownerName: string, repoName: string, label: string, color: string): Promise<void>;
+    createLabel(ownerName: string, repoName: string, label: string, color: string, description: string): Promise<void>;
 
     addLabel(ownerName: string, repoName: string, pullRequestNumber: number, label: string): Promise<void>;
 
@@ -26,7 +26,13 @@ export class Labeler {
             return;
         }
 
-        await this.labelPullRequestService.createLabel(ownerName, repoName, OPT_IN_LABEL, 'c0f276');
+        await this.labelPullRequestService.createLabel(
+            ownerName,
+            repoName,
+            OPT_IN_LABEL,
+            'c0f276',
+            'Apply this label to enable automatic rebasing',
+        );
     }
 
     async labelNonRebaseablePullRequests(ownerName: string, repoName: string): Promise<void> {
@@ -61,7 +67,13 @@ export class Labeler {
             return;
         }
 
-        await this.labelPullRequestService.createLabel(ownerName, repoName, NON_REBASEABLE_LABEL, 'df1d42');
+        await this.labelPullRequestService.createLabel(
+            ownerName,
+            repoName,
+            NON_REBASEABLE_LABEL,
+            'df1d42',
+            "AutoRebase applies this label when a pull request can't be rebased automatically",
+        );
     }
 
     private async removeLabels(pullRequests: PullRequestInfo[], ownerName: string, repoName: string) {
