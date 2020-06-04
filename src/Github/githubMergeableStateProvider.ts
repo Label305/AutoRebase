@@ -1,14 +1,14 @@
 import {GetPullRequestService} from './Api/getPullRequestService';
 import {MergeableState, mergeableStates} from '../pullrequestinfo';
 import {debug} from '@actions/core';
-import promiseRetry from 'promise-retry';
+import {promiseRetry} from '../Util/promiseRetry';
 
 export class GithubMergeableStateProvider {
     constructor(private getPullRequestService: GetPullRequestService) {}
 
-    async mergeableStateFor(ownerName: string, repoName: string, pullRequestNumber: number): Promise<MergeableState> {
+    public mergeableStateFor(ownerName: string, repoName: string, pullRequestNumber: number): Promise<MergeableState> {
         return promiseRetry<MergeableState>(
-            async (retry: (error: unknown) => void): Promise<MergeableState> => {
+            async (): Promise<MergeableState> => {
                 try {
                     const {mergeableState} = await this.getPullRequestService.getPullRequest(
                         ownerName,
@@ -33,11 +33,9 @@ export class GithubMergeableStateProvider {
                             error,
                         )}", retrying.`,
                     );
-                    retry(error);
                     throw error;
                 }
             },
-            {minTimeout: 500},
         );
     }
 }

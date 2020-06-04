@@ -19,6 +19,7 @@
         "@typescript-eslint/no-empty-interface": "off",
         "@typescript-eslint/no-explicit-any": ["error", {"fixToUnknown": true}],
         "@typescript-eslint/camelcase": "off",
-        "@typescript-eslint/no-non-null-assertion": "off"
+        "@typescript-eslint/no-non-null-assertion": "off",
+        "@typescript-eslint/no-unsafe-call": "off"
     }
 }
