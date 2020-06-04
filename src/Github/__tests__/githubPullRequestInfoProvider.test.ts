@@ -1,4 +1,4 @@
-import {GithubMergeableStateProvider} from '../githubMergeableStateProvider';
+import {GithubPullRequestInfoProvider} from '../githubPullRequestInfoProvider';
 import {ApiGetPullRequest, GetPullRequestService} from '../Api/getPullRequestService';
 import each from 'jest-each';
 
@@ -11,41 +11,47 @@ class TestGetPullRequestService implements GetPullRequestService {
 }
 
 const getPullRequestService = new TestGetPullRequestService();
-const provider = new GithubMergeableStateProvider(getPullRequestService);
+const provider = new GithubPullRequestInfoProvider(getPullRequestService);
 
-describe('The mergeableState is propagated', () => {
+describe('The pull request info is propagated', () => {
     each([['behind'], ['blocked'], ['clean'], ['dirty'], ['unstable']]).it(
         "when the mergeableState is '%s'",
         async (mergeableState) => {
             /* Given */
             getPullRequestService.results.push({
+                rebaseable: true,
                 mergeableState: mergeableState,
+                labels: [],
             });
 
             /* When */
-            const result = await provider.mergeableStateFor('owner', 'repo', 3);
+            const result = await provider.pullRequestInfoFor('owner', 'repo', 3);
 
             /* Then */
-            expect(result).toBe(mergeableState);
+            expect(result.mergeableState).toBe(mergeableState);
         },
     );
 });
 
-describe('The mergeableState is retried', () => {
+describe('The pull request info is retried', () => {
     each([['unknown'], ['invalid']]).it("when the mergeableState is '%s'", async (mergeableState) => {
         /* Given */
         getPullRequestService.results.push({
+            rebaseable: true,
             mergeableState: mergeableState,
+            labels: [],
         });
 
         getPullRequestService.results.push({
+            rebaseable: true,
             mergeableState: 'behind',
+            labels: [],
         });
 
         /* When */
-        const result = await provider.mergeableStateFor('owner', 'repo', 3);
+        const result = await provider.pullRequestInfoFor('owner', 'repo', 3);
 
         /* Then */
-        expect(result).toBe('behind');
+        expect(result.mergeableState).toBe('behind');
     });
 });

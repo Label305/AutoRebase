@@ -1,16 +1,20 @@
 import {GetPullRequestService} from './Api/getPullRequestService';
-import {MergeableState, mergeableStates} from '../pullrequestinfo';
+import {mergeableStates, PullRequestInfo} from '../pullrequestinfo';
 import {debug} from '@actions/core';
 import {promiseRetry} from '../Util/promiseRetry';
 
-export class GithubMergeableStateProvider {
+export class GithubPullRequestInfoProvider {
     constructor(private getPullRequestService: GetPullRequestService) {}
 
-    public mergeableStateFor(ownerName: string, repoName: string, pullRequestNumber: number): Promise<MergeableState> {
-        return promiseRetry<MergeableState>(
-            async (): Promise<MergeableState> => {
+    public pullRequestInfoFor(
+        ownerName: string,
+        repoName: string,
+        pullRequestNumber: number,
+    ): Promise<PullRequestInfo> {
+        return promiseRetry<PullRequestInfo>(
+            async (): Promise<PullRequestInfo> => {
                 try {
-                    const {mergeableState} = await this.getPullRequestService.getPullRequest(
+                    const {rebaseable, mergeableState, labels} = await this.getPullRequestService.getPullRequest(
                         ownerName,
                         repoName,
                         pullRequestNumber,
@@ -25,8 +29,17 @@ export class GithubMergeableStateProvider {
                         throw Error("mergeableState is 'unknown'");
                     }
 
+                    debug(`rebaseable value for pull request #${pullRequestNumber}: ${String(rebaseable)}`);
                     debug(`mergeableState for pull request #${pullRequestNumber}: ${mergeableState}`);
-                    return mergeableState;
+
+                    return {
+                        ownerName: ownerName,
+                        repoName: repoName,
+                        number: pullRequestNumber,
+                        rebaseable: rebaseable,
+                        mergeableState: mergeableState,
+                        labels: labels,
+                    };
                 } catch (error) {
                     debug(
                         `Fetching mergeableState for pull request #${pullRequestNumber} failed: "${String(

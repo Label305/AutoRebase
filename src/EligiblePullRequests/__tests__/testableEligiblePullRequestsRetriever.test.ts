@@ -25,13 +25,14 @@ test('Without open pull requests there are no eligible pull requests', async () 
 });
 
 describe('A pull request is eligible', () => {
-    it("when the mergeableState is 'behind' and it has the label 'opt-in:autorebase'", async () => {
+    it("when it is rebaseable, the mergeableState is 'behind' and it has the label 'opt-in:autorebase'", async () => {
         /* Given */
         testOpenPullRequestsProvider.openPullRequestsValue = [
             {
                 ownerName: 'owner',
                 repoName: 'repo',
                 number: 3,
+                rebaseable: true,
                 mergeableState: 'behind',
                 labels: ['opt-in:autorebase'],
             },
@@ -46,6 +47,7 @@ describe('A pull request is eligible', () => {
                 ownerName: 'owner',
                 repoName: 'repo',
                 number: 3,
+                rebaseable: true,
                 mergeableState: 'behind',
                 labels: ['opt-in:autorebase'],
             },
@@ -54,6 +56,26 @@ describe('A pull request is eligible', () => {
 });
 
 describe('A pull request is not eligible', () => {
+    it("when it isn't rebaseable", async () => {
+        /* Given */
+        testOpenPullRequestsProvider.openPullRequestsValue = [
+            {
+                ownerName: 'owner',
+                repoName: 'repo',
+                number: 3,
+                rebaseable: false,
+                mergeableState: 'behind',
+                labels: ['opt-in:autorebase'],
+            },
+        ];
+
+        /* When */
+        const results = await retriever.findEligiblePullRequests('owner', 'repo');
+
+        /* Then */
+        expect(results).toStrictEqual([]);
+    });
+
     each([['blocked'], ['clean'], ['dirty'], ['unknown'], ['unstable']]).it(
         "when the mergeableState is '%s'",
         async (mergeableState: MergeableState) => {
@@ -63,6 +85,7 @@ describe('A pull request is not eligible', () => {
                     ownerName: 'owner',
                     repoName: 'repo',
                     number: 3,
+                    rebaseable: true,
                     mergeableState: mergeableState,
                     labels: ['opt-in:autorebase'],
                 },
@@ -83,6 +106,7 @@ describe('A pull request is not eligible', () => {
                 ownerName: 'owner',
                 repoName: 'repo',
                 number: 3,
+                rebaseable: true,
                 mergeableState: 'behind',
                 labels: [],
             },
