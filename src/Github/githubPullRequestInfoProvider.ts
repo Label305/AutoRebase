@@ -1,6 +1,6 @@
 import {GetPullRequestService} from './Api/getPullRequestService';
 import {mergeableStates, PullRequestInfo} from '../pullrequestinfo';
-import {debug} from '@actions/core';
+import {debug, info} from '@actions/core';
 import {promiseRetry} from '../Util/promiseRetry';
 
 export class GithubPullRequestInfoProvider {
@@ -25,7 +25,7 @@ export class GithubPullRequestInfoProvider {
                     }
 
                     if (mergeableState === 'unknown' || !mergeableStates.includes(mergeableState)) {
-                        debug(`mergeableState for pull request #${pullRequestNumber} is 'unknown', retrying.`);
+                        info(`mergeableState for pull request #${pullRequestNumber} is 'unknown', retrying.`);
                         throw Error("mergeableState is 'unknown'");
                     }
 
