@@ -1,8 +1,5 @@
 on:
   push:
-    branches:
-      - trigger
-      - master
   pull_request:
     types: [labeled]
 
