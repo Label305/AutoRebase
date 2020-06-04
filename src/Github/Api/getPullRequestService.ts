@@ -6,7 +6,9 @@ export interface GetPullRequestService {
 }
 
 export interface ApiGetPullRequest {
+    rebaseable: boolean;
     mergeableState: MergeableState | undefined;
+    labels: string[];
 }
 
 export class GithubGetPullRequestService implements GetPullRequestService {
@@ -24,7 +26,9 @@ export class GithubGetPullRequestService implements GetPullRequestService {
         });
 
         return {
+            rebaseable: result.data.rebaseable,
             mergeableState: result.data.mergeable_state as MergeableState,
+            labels: result.data.labels.map((label) => label.name),
         };
     }
 }

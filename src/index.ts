@@ -5,7 +5,7 @@ import {EligiblePullRequestsRetriever} from './EligiblePullRequests/eligiblePull
 import {Rebaser} from './rebaser';
 import {TestableEligiblePullRequestsRetriever} from './EligiblePullRequests/testableEligiblePullRequestsRetriever';
 import {GithubOpenPullRequestsProvider} from './Github/githubOpenPullRequestsProvider';
-import {GithubMergeableStateProvider} from './Github/githubMergeableStateProvider';
+import {GithubPullRequestInfoProvider} from './Github/githubPullRequestInfoProvider';
 import {GithubGetPullRequestService} from './Github/Api/getPullRequestService';
 import {GithubListPullRequestsService} from './Github/Api/listPullRequestsService';
 
@@ -15,7 +15,7 @@ async function run(): Promise<void> {
         const eligiblePullRequestsRetriever: EligiblePullRequestsRetriever = new TestableEligiblePullRequestsRetriever(
             new GithubOpenPullRequestsProvider(
                 new GithubListPullRequestsService(github),
-                new GithubMergeableStateProvider(new GithubGetPullRequestService(github)),
+                new GithubPullRequestInfoProvider(new GithubGetPullRequestService(github)),
             ),
         );
         const rebaser = new Rebaser(github);
