@@ -3,6 +3,7 @@ export type PullRequestInfo = {
     repoName: string;
     number: number;
     mergeableState: MergeableState;
+    labels: string[];
 };
 
 /**

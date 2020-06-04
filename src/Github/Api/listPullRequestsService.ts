@@ -6,6 +6,7 @@ export interface ListPullRequestsService {
 
 export interface ApiListPullRequest {
     number: number;
+    labels: string[];
 }
 
 export class GithubListPullRequestsService implements ListPullRequestsService {
@@ -21,6 +22,7 @@ export class GithubListPullRequestsService implements ListPullRequestsService {
         return data.map((value) => {
             return {
                 number: value.number,
+                labels: value.labels.map((label) => label.name),
             };
         });
     }

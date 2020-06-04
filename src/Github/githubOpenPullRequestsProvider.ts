@@ -2,7 +2,7 @@ import {OpenPullRequestsProvider} from '../EligiblePullRequests/testableEligible
 import {PullRequestInfo} from '../pullrequestinfo';
 import {mapAsync} from '../utils';
 import {GithubMergeableStateProvider} from './githubMergeableStateProvider';
-import {ListPullRequestsService} from './Api/listPullRequestsService';
+import {ApiListPullRequest, ListPullRequestsService} from './Api/listPullRequestsService';
 
 export class GithubOpenPullRequestsProvider implements OpenPullRequestsProvider {
     constructor(
@@ -13,27 +13,28 @@ export class GithubOpenPullRequestsProvider implements OpenPullRequestsProvider 
     async openPullRequests(ownerName: string, repoName: string): Promise<PullRequestInfo[]> {
         const pullRequests = await this.listPullRequestsService.listOpenPullRequests(ownerName, repoName);
 
-        return await mapAsync(pullRequests, async (value) => {
-            return this.pullRequestInfoFor(ownerName, repoName, value.number);
+        return await mapAsync(pullRequests, async (pullRequest) => {
+            return this.pullRequestInfoFor(ownerName, repoName, pullRequest);
         });
     }
 
     private async pullRequestInfoFor(
         ownerName: string,
         repoName: string,
-        pullRequestNumber: number,
+        pullRequest: ApiListPullRequest,
     ): Promise<PullRequestInfo> {
         const mergeableState = await this.mergeableStateProvider.mergeableStateFor(
             ownerName,
             repoName,
-            pullRequestNumber,
+            pullRequest.number,
         );
 
         return {
             ownerName: ownerName,
             repoName: repoName,
-            number: pullRequestNumber,
+            number: pullRequest.number,
             mergeableState: mergeableState,
+            labels: pullRequest.labels,
         };
     }
 }
