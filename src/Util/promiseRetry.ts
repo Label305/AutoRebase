@@ -1,10 +1,10 @@
 export async function promiseRetry<T>(
-    fun: () => Promise<T>,
+    fun: (attemptNumber: number) => Promise<T>,
     config: {timeoutMs: number} = {timeoutMs: 500},
     attemptNumber = 1,
 ): Promise<T> {
     try {
-        return await fun();
+        return await fun(attemptNumber);
     } catch (e) {
         if (attemptNumber === 10) {
             throw e;

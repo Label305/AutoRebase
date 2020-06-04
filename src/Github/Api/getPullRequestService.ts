@@ -7,7 +7,7 @@ export interface GetPullRequestService {
 
 export interface ApiGetPullRequest {
     rebaseable: boolean;
-    mergeableState: MergeableState | undefined;
+    mergeableState: MergeableState;
     labels: string[];
 }
 
