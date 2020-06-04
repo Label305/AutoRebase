@@ -33,6 +33,7 @@ export class GithubOpenPullRequestsProvider implements OpenPullRequestsProvider 
             ownerName: ownerName,
             repoName: repoName,
             number: pullRequest.number,
+            draft: pullRequest.draft,
             rebaseable: pullRequest.rebaseable,
             mergeableState: pullRequest.mergeableState,
             labels: pullRequest.labels,

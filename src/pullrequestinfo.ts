@@ -2,6 +2,7 @@ export type PullRequestInfo = {
     ownerName: string;
     repoName: string;
     number: number;
+    draft: boolean;
     rebaseable: boolean;
     mergeableState: MergeableState;
     labels: string[];

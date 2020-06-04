@@ -33,6 +33,7 @@ describe('A pull request is eligible', () => {
                 ownerName: 'owner',
                 repoName: 'repo',
                 number: 3,
+                draft: false,
                 rebaseable: true,
                 mergeableState: 'behind',
                 labels: [OPT_IN_LABEL],
@@ -48,6 +49,7 @@ describe('A pull request is eligible', () => {
                 ownerName: 'owner',
                 repoName: 'repo',
                 number: 3,
+                draft: false,
                 rebaseable: true,
                 mergeableState: 'behind',
                 labels: [OPT_IN_LABEL],
@@ -64,6 +66,7 @@ describe('A pull request is not eligible', () => {
                 ownerName: 'owner',
                 repoName: 'repo',
                 number: 3,
+                draft: false,
                 rebaseable: false,
                 mergeableState: 'behind',
                 labels: [OPT_IN_LABEL],
@@ -86,6 +89,7 @@ describe('A pull request is not eligible', () => {
                     ownerName: 'owner',
                     repoName: 'repo',
                     number: 3,
+                    draft: false,
                     rebaseable: true,
                     mergeableState: mergeableState,
                     labels: [OPT_IN_LABEL],
@@ -107,9 +111,31 @@ describe('A pull request is not eligible', () => {
                 ownerName: 'owner',
                 repoName: 'repo',
                 number: 3,
+                draft: false,
                 rebaseable: true,
                 mergeableState: 'behind',
                 labels: [],
+            },
+        ];
+
+        /* When */
+        const results = await retriever.findEligiblePullRequests('owner', 'repo');
+
+        /* Then */
+        expect(results).toStrictEqual([]);
+    });
+
+    it(`when it is a draft pull request`, async () => {
+        /* Given */
+        testOpenPullRequestsProvider.openPullRequestsValue = [
+            {
+                ownerName: 'owner',
+                repoName: 'repo',
+                number: 3,
+                draft: true,
+                rebaseable: true,
+                mergeableState: 'behind',
+                labels: [OPT_IN_LABEL],
             },
         ];
 

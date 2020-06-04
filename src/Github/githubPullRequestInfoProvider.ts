@@ -14,13 +14,13 @@ export class GithubPullRequestInfoProvider {
         return promiseRetry<PullRequestInfo>(
             async (attemptNumber): Promise<PullRequestInfo> => {
                 try {
-                    const {rebaseable, mergeableState, labels} = await this.getPullRequestService.getPullRequest(
+                    const {draft, rebaseable, mergeableState, labels} = await this.getPullRequestService.getPullRequest(
                         ownerName,
                         repoName,
                         pullRequestNumber,
                     );
 
-                    if (attemptNumber < 10) {
+                    if (attemptNumber < 10 && !draft) {
                         if (mergeableState === 'unknown' || !mergeableStates.includes(mergeableState)) {
                             debug(`mergeableState for pull request #${pullRequestNumber} is 'unknown', retrying.`);
                             throw Error("mergeableState is 'unknown'");
@@ -34,6 +34,7 @@ export class GithubPullRequestInfoProvider {
                         ownerName: ownerName,
                         repoName: repoName,
                         number: pullRequestNumber,
+                        draft: draft,
                         rebaseable: rebaseable,
                         mergeableState: mergeableState,
                         labels: labels,
