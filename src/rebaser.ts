@@ -1,5 +1,5 @@
 import {PullRequestInfo} from './pullrequestinfo';
-import {debug, info} from '@actions/core';
+import {info} from '@actions/core';
 import {rebasePullRequest} from 'github-rebase/lib';
 import {Octokit} from '@octokit/rest';
 import {GitHub} from '@actions/github';
@@ -22,7 +22,7 @@ export class Rebaser {
     }
 
     private async rebase(pullRequest: PullRequestInfo) {
-        debug(`Rebasing pull request ${JSON.stringify(pullRequest)}`);
+        info(`Rebasing pull request ${JSON.stringify(pullRequest)}`);
         try {
             await rebasePullRequest({
                 octokit: (this.github as unknown) as Octokit,
