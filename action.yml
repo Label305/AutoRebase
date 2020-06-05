@@ -9,3 +9,7 @@ inputs:
 runs:
   using: 'node12'
   main: 'dist/index.js'
+
+branding:
+  icon: 'arrow-up-right'
+  color: 'green'
