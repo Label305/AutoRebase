@@ -46,6 +46,18 @@ jobs:
                   github_token: ${{ secrets.AUTOREBASE_TOKEN }}
 ```
 
+## Modification after a PR has been rebased
+
+AutoRebase will 'rewrite history' when rebasing pull requests:
+commits will be rewritten on top of the target branch and force pushed.
+
+If you want to make changes to your pull request, you need to force push as well.
+We recommend the following strategy when doing this:
+
+-   Run `git fetch`
+-   Ensure there are no other changes made remotely to your pull request branch
+-   Run `git push --force-with-lease` to force push your changes.
+
 ## Attribution
 
 AutoRebase is heavily inspired by [tibdex/autosquash](https://github.com/tibdex/autosquash) and [tibdex/autorebase](https://github.com/tibdex/autosquash).
