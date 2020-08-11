@@ -1,7 +1,7 @@
 import {PullRequestInfo} from '../pullrequestinfo';
 import {EligiblePullRequestsRetriever} from './eligiblePullRequestsRetriever';
 import {info} from '@actions/core';
-import {OPT_IN_LABEL} from '../labels';
+import {OPT_IN_LABEL, ONCE_LABEL} from '../labels';
 
 // Secondary port for [[TestableEligiblePullRequestsRetriever]]
 export interface OpenPullRequestsProvider {
@@ -30,8 +30,8 @@ export class TestableEligiblePullRequestsRetriever implements EligiblePullReques
     }
 
     private static isEligible(pullRequestInfo: PullRequestInfo): boolean {
-        if (!pullRequestInfo.labels.includes(OPT_IN_LABEL)) {
-            info(`PR #${pullRequestInfo.number} does not have the '${OPT_IN_LABEL}' label.`);
+        if (!pullRequestInfo.labels.includes(OPT_IN_LABEL) && !pullRequestInfo.labels.includes(ONCE_LABEL)) {
+            info(`PR #${pullRequestInfo.number} does not have the '${OPT_IN_LABEL}' or '${ONCE_LABEL}' label.`);
             return false;
         }
 
