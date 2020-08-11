@@ -35,16 +35,6 @@ export class TestableEligiblePullRequestsRetriever implements EligiblePullReques
             return false;
         }
 
-        if (pullRequestInfo.draft) {
-            info(`PR #${pullRequestInfo.number} is a draft PR.`);
-            return false;
-        }
-
-        if (pullRequestInfo.mergeableState !== 'behind') {
-            info(`PR #${pullRequestInfo.number} is not 'behind', but: '${pullRequestInfo.mergeableState}'.`);
-            return false;
-        }
-
         if (!pullRequestInfo.rebaseable) {
             info(`PR #${pullRequestInfo.number} is not rebaseable.`);
             return false;
