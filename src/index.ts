@@ -2,7 +2,7 @@ import {getInput, setFailed} from '@actions/core';
 import {context, GitHub} from '@actions/github';
 import Webhooks from '@octokit/webhooks';
 import {EligiblePullRequestsRetriever} from './EligiblePullRequests/eligiblePullRequestsRetriever';
-import {Rebaser} from './rebaser';
+import {Rebaser} from './Rebaser/rebaser';
 import {TestableEligiblePullRequestsRetriever} from './EligiblePullRequests/testableEligiblePullRequestsRetriever';
 import {GithubPullRequestInfoProvider} from './Github/githubPullRequestInfoProvider';
 import {GithubGetPullRequestService} from './Github/Api/getPullRequestService';
@@ -10,6 +10,8 @@ import {GithubListPullRequestsService} from './Github/Api/listPullRequestsServic
 import {GithubLabelPullRequestService} from './Github/githubLabelPullRequestService';
 import {GithubOpenPullRequestsProvider} from './Github/githubOpenPullRequestsProvider';
 import {Labeler} from './NonRebaseablePullRequests/labeler';
+import {Octokit} from '@octokit/rest';
+import {RealGithubRebase} from './Rebaser/githubRebase';
 
 async function run(): Promise<void> {
     try {
@@ -21,7 +23,7 @@ async function run(): Promise<void> {
         const eligiblePullRequestsRetriever: EligiblePullRequestsRetriever = new TestableEligiblePullRequestsRetriever(
             openPullRequestsProvider,
         );
-        const rebaser = new Rebaser(github);
+        const rebaser = new Rebaser(new RealGithubRebase((github as unknown) as Octokit));
         const labeler = new Labeler(openPullRequestsProvider, new GithubLabelPullRequestService(github));
 
         const payload = context.payload as Webhooks.WebhookPayloadPush;
