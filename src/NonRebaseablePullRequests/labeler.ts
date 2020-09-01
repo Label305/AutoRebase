@@ -1,7 +1,7 @@
 import {OpenPullRequestsProvider} from '../EligiblePullRequests/testableEligiblePullRequestsRetriever';
 import {info} from '@actions/core';
 import {PullRequestInfo} from '../pullrequestinfo';
-import {NON_REBASEABLE_LABEL, OPT_IN_LABEL} from '../labels';
+import {NON_REBASEABLE_LABEL, OPT_IN_LABEL, ONCE_LABEL} from '../labels';
 
 // Secondary port for Labeler
 export interface LabelPullRequestService {
@@ -32,6 +32,21 @@ export class Labeler {
             OPT_IN_LABEL,
             'c0f276',
             'Apply this label to enable automatic rebasing',
+        );
+    }
+
+    async createOnceLabel(ownerName: string, repoName: string): Promise<void> {
+        const labels = await this.labelPullRequestService.listLabels(ownerName, repoName);
+        if (labels.includes(ONCE_LABEL)) {
+            return;
+        }
+
+        await this.labelPullRequestService.createLabel(
+            ownerName,
+            repoName,
+            ONCE_LABEL,
+            'c0f276',
+            'Apply this label to rebasing one time',
         );
     }
 
