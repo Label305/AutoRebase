@@ -1,6 +1,6 @@
 import {getInput, setFailed} from '@actions/core';
 import {context, GitHub} from '@actions/github';
-import {EventPayloads} from '@octokit/webhooks';
+import EventPayloads from '../node_modules/@octokit/webhooks';
 import {EligiblePullRequestsRetriever} from './EligiblePullRequests/eligiblePullRequestsRetriever';
 import {Rebaser} from './Rebaser/rebaser';
 import {TestableEligiblePullRequestsRetriever} from './EligiblePullRequests/testableEligiblePullRequestsRetriever';
