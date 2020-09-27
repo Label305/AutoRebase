@@ -1,18 +1,16 @@
-import {PullRequestInfo} from './pullrequestinfo';
-import {info} from '@actions/core';
-import {rebasePullRequest} from 'github-rebase/lib';
-import {Octokit} from '@octokit/rest';
-import {GitHub} from '@actions/github';
+import {PullRequestInfo} from '../pullrequestinfo';
+import {info, warning} from '@actions/core';
+import {GithubRebase} from './githubRebase';
 
 /**
  * Uses [github-rebase](https://github.com/tibdex/github-rebase)
  * to rebase pull requests.
  */
 export class Rebaser {
-    private github: GitHub;
+    private githubRebase: GithubRebase;
 
-    constructor(github: GitHub) {
-        this.github = github;
+    constructor(githubRebase: GithubRebase) {
+        this.githubRebase = githubRebase;
     }
 
     public async rebasePullRequests(pullRequests: PullRequestInfo[]): Promise<void> {
@@ -24,15 +22,14 @@ export class Rebaser {
     private async rebase(pullRequest: PullRequestInfo) {
         info(`Rebasing pull request ${JSON.stringify(pullRequest)}`);
         try {
-            await rebasePullRequest({
-                octokit: (this.github as unknown) as Octokit,
-                owner: pullRequest.ownerName,
-                pullRequestNumber: pullRequest.number,
-                repo: pullRequest.repoName,
-            });
+            await this.githubRebase.rebasePullRequest(pullRequest.ownerName, pullRequest.number, pullRequest.repoName);
 
             info(`${JSON.stringify(pullRequest)} was successfully rebased.`);
         } catch (e) {
+            if (String(e).includes('Rebase aborted because the head branch changed')) {
+                warning(`Rebase aborted because the head branch changed for ${JSON.stringify(pullRequest)}`);
+                return;
+            }
             throw new Error(`Error while rebasing for ${JSON.stringify(pullRequest)}: ${String(e)}`);
         }
     }
