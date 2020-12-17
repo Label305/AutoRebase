@@ -1,5 +1,7 @@
 import {GitHub} from '@actions/github';
 import {Octokit} from '@octokit/rest';
+import {info} from '@actions/core';
+import {OPT_IN_LABEL} from '../../labels';
 
 export interface ListPullRequestsService {
     listOpenPullRequests(ownerName: string, repoName: string): Promise<ApiListPullRequest[]>;
@@ -23,6 +25,8 @@ export class GithubListPullRequestsService implements ListPullRequestsService {
         const openPulls: ApiListPullRequest[] = [];
         for await (const response of this.github.paginate.iterator(options)) {
             const data = response.data as Octokit.PullsListResponse;
+            // eslint-disable-next-line no-console
+            console.log(data);
             openPulls.push(
                 ...data.map((value) => {
                     return {
