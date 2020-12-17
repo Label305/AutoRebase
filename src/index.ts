@@ -1,6 +1,6 @@
 import {getInput, setFailed} from '@actions/core';
 import {context, GitHub} from '@actions/github';
-import Webhooks from '@octokit/webhooks';
+import EventPayloads from '../node_modules/@octokit/webhooks';
 import {EligiblePullRequestsRetriever} from './EligiblePullRequests/eligiblePullRequestsRetriever';
 import {Rebaser} from './Rebaser/rebaser';
 import {TestableEligiblePullRequestsRetriever} from './EligiblePullRequests/testableEligiblePullRequestsRetriever';
@@ -26,7 +26,7 @@ async function run(): Promise<void> {
         const rebaser = new Rebaser(new RealGithubRebase((github as unknown) as Octokit));
         const labeler = new Labeler(openPullRequestsProvider, new GithubLabelPullRequestService(github));
 
-        const payload = context.payload as Webhooks.WebhookPayloadPush;
+        const payload = context.payload as EventPayloads.WebhookPayloadPush;
 
         const ownerName = payload.repository.owner.login;
         const repoName = payload.repository.name;
