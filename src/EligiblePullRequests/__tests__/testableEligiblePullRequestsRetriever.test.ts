@@ -56,6 +56,37 @@ describe('A pull request is eligible', () => {
             },
         ]);
     });
+
+    it(`when it is rebaseable, the mergeableState is 'blocked' and it has the label '${OPT_IN_LABEL}'`, async () => {
+        /* Given */
+        testOpenPullRequestsProvider.openPullRequestsValue = [
+            {
+                ownerName: 'owner',
+                repoName: 'repo',
+                number: 3,
+                draft: false,
+                rebaseable: true,
+                mergeableState: 'blocked',
+                labels: [OPT_IN_LABEL],
+            },
+        ];
+
+        /* When */
+        const results = await retriever.findEligiblePullRequests('owner', 'repo');
+
+        /* Then */
+        expect(results).toStrictEqual([
+            {
+                ownerName: 'owner',
+                repoName: 'repo',
+                number: 3,
+                draft: false,
+                rebaseable: true,
+                mergeableState: 'blocked',
+                labels: [OPT_IN_LABEL],
+            },
+        ]);
+    });
 });
 
 describe('A pull request is not eligible', () => {
@@ -80,7 +111,7 @@ describe('A pull request is not eligible', () => {
         expect(results).toStrictEqual([]);
     });
 
-    each([['blocked'], ['clean'], ['dirty'], ['unknown'], ['unstable']]).it(
+    each([['clean'], ['dirty'], ['unknown'], ['unstable']]).it(
         "when the mergeableState is '%s'",
         async (mergeableState: MergeableState) => {
             /* Given */
