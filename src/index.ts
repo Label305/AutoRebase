@@ -18,7 +18,7 @@ async function run(): Promise<void> {
     try {
         const github = new GitHub(getInput('github_token'));
         const startLimit = (await github.rateLimit.get()).data.rate;
-        debug(`Rate limit at end: ${JSON.stringify(startLimit)}`);
+        debug(`Rate limit at start: ${JSON.stringify(startLimit)}`);
 
         const openPullRequestsProvider = new GithubOpenPullRequestsProvider(
             new GithubListPullRequestsService(github),
