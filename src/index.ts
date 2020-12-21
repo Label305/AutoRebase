@@ -12,10 +12,14 @@ import {GithubOpenPullRequestsProvider} from './Github/githubOpenPullRequestsPro
 import {Labeler} from './NonRebaseablePullRequests/labeler';
 import {Octokit} from '@octokit/rest';
 import {RealGithubRebase} from './Rebaser/githubRebase';
+import {info, debug} from '@actions/core';
 
 async function run(): Promise<void> {
     try {
         const github = new GitHub(getInput('github_token'));
+        const startLimit = (await github.rateLimit.get()).data.rate;
+        debug(`Rate limit at end: ${JSON.stringify(startLimit)}`);
+
         const openPullRequestsProvider = new GithubOpenPullRequestsProvider(
             new GithubListPullRequestsService(github),
             new GithubPullRequestInfoProvider(new GithubGetPullRequestService(github)),
@@ -31,12 +35,20 @@ async function run(): Promise<void> {
         const ownerName = payload.repository.owner.login;
         const repoName = payload.repository.name;
 
+        info(`Finding eligible pull requests..`);
         const pullRequests = await eligiblePullRequestsRetriever.findEligiblePullRequests(ownerName, repoName);
+        debug(JSON.stringify((await github.rateLimit.get()).data.rate));
 
+        info(`Rebasing ${pullRequests.length} pull requests..`);
         await rebaser.rebasePullRequests(pullRequests);
 
         await labeler.createOptInLabel(ownerName, repoName);
         await labeler.labelNonRebaseablePullRequests(ownerName, repoName);
+        const endLimit = (await github.rateLimit.get()).data.rate;
+
+        debug(
+            `Rate limit at end: ${JSON.stringify(endLimit)} (~${startLimit.remaining - endLimit.remaining} requests*)`,
+        );
     } catch (e) {
         setFailed(e);
     }
