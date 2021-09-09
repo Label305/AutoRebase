@@ -60,4 +60,4 @@ We recommend the following strategy when doing this:
 
 ## Attribution
 
-AutoRebase is heavily inspired by [tibdex/autosquash](https://github.com/tibdex/autosquash) and [tibdex/autorebase](https://github.com/tibdex/autosquash).
+AutoRebase is heavily inspired by [tibdex/autosquash](https://github.com/tibdex/autosquash) and [tibdex/autorebase](https://github.com/tibdex/autorebase).
