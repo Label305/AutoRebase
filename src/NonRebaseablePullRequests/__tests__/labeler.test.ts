@@ -49,6 +49,7 @@ describe('A pull request gets labeled when', () => {
             rebaseable: false,
             mergeableState: 'behind',
             labels: [OPT_IN_LABEL],
+            approved: true,
         });
 
         /* When */
@@ -70,6 +71,7 @@ describe('A pull request does not get labeled when', () => {
             rebaseable: true,
             mergeableState: 'behind',
             labels: [],
+            approved: true,
         });
 
         /* When */
@@ -89,6 +91,29 @@ describe('A pull request does not get labeled when', () => {
             rebaseable: false,
             mergeableState: 'behind',
             labels: [NON_REBASEABLE_LABEL],
+            approved: true,
+        });
+
+        const addLabelSpy = spyOn(labelPullRequestService, 'addLabel');
+
+        /* When */
+        await labeler.labelNonRebaseablePullRequests('owner', 'repo');
+
+        /* Then */
+        expect(addLabelSpy).not.toHaveBeenCalled();
+    });
+
+    it('it is not approved yet but it already has the label', async () => {
+        /* Given */
+        pullRequests.set(3, {
+            ownerName: 'owner',
+            repoName: 'repo',
+            number: 3,
+            draft: false,
+            rebaseable: false,
+            mergeableState: 'behind',
+            labels: [NON_REBASEABLE_LABEL],
+            approved: false,
         });
 
         const addLabelSpy = spyOn(labelPullRequestService, 'addLabel');
@@ -110,6 +135,7 @@ describe('A pull request does not get labeled when', () => {
             rebaseable: false,
             mergeableState: 'behind',
             labels: [],
+            approved: true,
         });
 
         const addLabelSpy = spyOn(labelPullRequestService, 'addLabel');
@@ -133,6 +159,7 @@ describe('The label gets removed from a pull request when', () => {
             rebaseable: true,
             mergeableState: 'behind',
             labels: [NON_REBASEABLE_LABEL],
+            approved: true,
         });
 
         /* When */
@@ -154,6 +181,7 @@ describe('The label does not get removed from a pull request when', () => {
             rebaseable: false,
             mergeableState: 'behind',
             labels: [NON_REBASEABLE_LABEL],
+            approved: true,
         });
 
         /* When */
@@ -173,6 +201,7 @@ describe('The label does not get removed from a pull request when', () => {
             rebaseable: true,
             mergeableState: 'behind',
             labels: [],
+            approved: false,
         });
 
         const removeLabelSpy = spyOn(labelPullRequestService, 'removeLabel');

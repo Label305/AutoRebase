@@ -37,6 +37,7 @@ describe('A pull request is eligible', () => {
                 rebaseable: true,
                 mergeableState: 'behind',
                 labels: [OPT_IN_LABEL],
+                approved: true,
             },
         ];
 
@@ -53,6 +54,7 @@ describe('A pull request is eligible', () => {
                 rebaseable: true,
                 mergeableState: 'behind',
                 labels: [OPT_IN_LABEL],
+                approved: true,
             },
         ]);
     });
@@ -70,6 +72,7 @@ describe('A pull request is not eligible', () => {
                 rebaseable: false,
                 mergeableState: 'behind',
                 labels: [OPT_IN_LABEL],
+                approved: true,
             },
         ];
 
@@ -93,6 +96,7 @@ describe('A pull request is not eligible', () => {
                     rebaseable: true,
                     mergeableState: mergeableState,
                     labels: [OPT_IN_LABEL],
+                    approved: true,
                 },
             ];
 
@@ -115,6 +119,7 @@ describe('A pull request is not eligible', () => {
                 rebaseable: true,
                 mergeableState: 'behind',
                 labels: [],
+                approved: true,
             },
         ];
 
@@ -136,6 +141,29 @@ describe('A pull request is not eligible', () => {
                 rebaseable: true,
                 mergeableState: 'behind',
                 labels: [OPT_IN_LABEL],
+                approved: true,
+            },
+        ];
+
+        /* When */
+        const results = await retriever.findEligiblePullRequests('owner', 'repo');
+
+        /* Then */
+        expect(results).toStrictEqual([]);
+    });
+
+    it(`when it is a not approved`, async () => {
+        /* Given */
+        testOpenPullRequestsProvider.openPullRequestsValue = [
+            {
+                ownerName: 'owner',
+                repoName: 'repo',
+                number: 3,
+                draft: true,
+                rebaseable: true,
+                mergeableState: 'behind',
+                labels: [OPT_IN_LABEL],
+                approved: false,
             },
         ];
 

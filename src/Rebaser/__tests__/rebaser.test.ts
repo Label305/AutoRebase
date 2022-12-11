@@ -44,6 +44,7 @@ test('A single succeeding rebase completes successfully', async () => {
                 rebaseable: true,
                 mergeableState: 'behind',
                 labels: [],
+                approved: true,
             },
         ]);
     } catch (e) {
@@ -71,6 +72,7 @@ test('Failing rebase due to head base change completes successfully', async () =
                 rebaseable: true,
                 mergeableState: 'behind',
                 labels: [],
+                approved: true,
             },
         ]);
     } catch (e) {
@@ -98,6 +100,7 @@ test('Failing rebase due unknown failure errors', async () => {
                 rebaseable: true,
                 mergeableState: 'behind',
                 labels: [],
+                approved: true,
             },
         ]);
     } catch (e) {

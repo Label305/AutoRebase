@@ -1,12 +1,21 @@
 import {GithubPullRequestInfoProvider} from '../githubPullRequestInfoProvider';
-import {ApiGetPullRequest, GetPullRequestService} from '../Api/getPullRequestService';
+import {ApiGetPullRequest, ApiGetPullRequestReview, GetPullRequestService} from '../Api/getPullRequestService';
 import each from 'jest-each';
 
 class TestGetPullRequestService implements GetPullRequestService {
     results: ApiGetPullRequest[] = [];
+    reviews: ApiGetPullRequestReview[] = [];
 
     async getPullRequest(ownerName: string, repoName: string, pullRequestNumber: number): Promise<ApiGetPullRequest> {
         return this.results.shift()!;
+    }
+
+    async getPullRequestReviews(
+        ownerName: string,
+        repoName: string,
+        pullRequestNumber: number,
+    ): Promise<ApiGetPullRequestReview> {
+        return this.reviews.shift()!;
     }
 }
 
@@ -24,6 +33,9 @@ describe('The pull request info is propagated', () => {
                 mergeableState: mergeableState,
                 labels: [],
             });
+            getPullRequestService.reviews.push({
+                approved: true,
+            });
 
             /* When */
             const result = await provider.pullRequestInfoFor('owner', 'repo', 3);
@@ -40,6 +52,28 @@ describe('The pull request info is propagated', () => {
             rebaseable: true,
             mergeableState: 'unknown',
             labels: [],
+        });
+        getPullRequestService.reviews.push({
+            approved: true,
+        });
+
+        /* When */
+        const result = await provider.pullRequestInfoFor('owner', 'repo', 3);
+
+        /* Then */
+        expect(result.mergeableState).toBe('unknown');
+    });
+
+    it('if the approved status is false', async () => {
+        /* Given */
+        getPullRequestService.results.push({
+            draft: true,
+            rebaseable: true,
+            mergeableState: 'unknown',
+            labels: [],
+        });
+        getPullRequestService.reviews.push({
+            approved: false,
         });
 
         /* When */
@@ -59,12 +93,18 @@ describe('The pull request info is retried', () => {
             mergeableState: mergeableState,
             labels: [],
         });
+        getPullRequestService.reviews.push({
+            approved: true,
+        });
 
         getPullRequestService.results.push({
             draft: false,
             rebaseable: true,
             mergeableState: 'behind',
             labels: [],
+        });
+        getPullRequestService.reviews.push({
+            approved: true,
         });
 
         /* When */
@@ -82,6 +122,9 @@ describe('The pull request info is retried', () => {
                 rebaseable: true,
                 mergeableState: 'unknown',
                 labels: [],
+            });
+            getPullRequestService.reviews.push({
+                approved: true,
             });
         }
 

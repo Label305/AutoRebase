@@ -50,6 +50,11 @@ export class TestableEligiblePullRequestsRetriever implements EligiblePullReques
             return false;
         }
 
+        if (!pullRequestInfo.approved) {
+            info(`PR #${pullRequestInfo.number} is approved yet.`);
+            return false;
+        }
+
         return true;
     }
 }

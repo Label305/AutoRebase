@@ -27,8 +27,15 @@ export class GithubPullRequestInfoProvider {
                         }
                     }
 
+                    const {approved} = await this.getPullRequestService.getPullRequestReviews(
+                        ownerName,
+                        repoName,
+                        pullRequestNumber,
+                    );
+
                     debug(`rebaseable value for pull request #${pullRequestNumber}: ${String(rebaseable)}`);
                     debug(`mergeableState for pull request #${pullRequestNumber}: ${mergeableState}`);
+                    debug(`approved for pull request #${pullRequestNumber}: ${String(approved)}`);
 
                     return {
                         ownerName: ownerName,
@@ -38,6 +45,7 @@ export class GithubPullRequestInfoProvider {
                         rebaseable: rebaseable,
                         mergeableState: mergeableState,
                         labels: labels,
+                        approved: approved,
                     };
                 } catch (error) {
                     debug(

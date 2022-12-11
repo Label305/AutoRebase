@@ -6,6 +6,7 @@ export type PullRequestInfo = {
     rebaseable: boolean;
     mergeableState: MergeableState;
     labels: string[];
+    approved: boolean;
 };
 
 /**
