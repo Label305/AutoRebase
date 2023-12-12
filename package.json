@@ -31,8 +31,9 @@
         "@actions/github": "^2.2.0",
         "@octokit/types": "^4.1.5",
         "@octokit/webhooks": "^7.6.2",
+        "@seung-o/github-rebase": "^1.0.0",
         "@zeit/ncc": "^0.22.3",
-        "github-rebase": "^1.1.0",
+        "github-rebase": "^0.1.4",
         "typescript": "^3.9.3"
     },
     "devDependencies": {

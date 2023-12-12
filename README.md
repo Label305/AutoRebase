@@ -44,6 +44,8 @@ jobs:
                   # - a personal access token
                   #   See https://help.github.com/en/articles/creating-a-personal-access-token-for-the-command-line.
                   github_token: ${{ secrets.AUTOREBASE_TOKEN }}
+                  # It is optional
+                  base_branch: main
 ```
 
 ## Modification after a PR has been rebased

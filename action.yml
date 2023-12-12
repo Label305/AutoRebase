@@ -2,14 +2,17 @@ name: 'Auto rebase'
 description: 'Automatically rebases pull requests that are out-of-date.'
 
 inputs:
-  github_token:
-    description: The GITHUB_TOKEN secret
-    required: true
+    github_token:
+        description: The GITHUB_TOKEN secret
+        required: true
+    base_branch:
+        description: The base branch for rebase
+        required: false
 
 runs:
-  using: 'node12'
-  main: 'dist/index.js'
+    using: 'node12'
+    main: 'dist/index.js'
 
 branding:
-  icon: 'arrow-up-right'
-  color: 'green'
+    icon: 'arrow-up-right'
+    color: 'green'

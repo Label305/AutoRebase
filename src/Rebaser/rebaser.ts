@@ -1,5 +1,5 @@
-import {PullRequestInfo} from '../pullrequestinfo';
 import {info, warning} from '@actions/core';
+import {PullRequestInfo} from '../pullrequestinfo';
 import {GithubRebase} from './githubRebase';
 
 /**
@@ -13,16 +13,21 @@ export class Rebaser {
         this.githubRebase = githubRebase;
     }
 
-    public async rebasePullRequests(pullRequests: PullRequestInfo[]): Promise<void> {
+    public async rebasePullRequests(pullRequests: PullRequestInfo[], baseBranch?: string): Promise<void> {
         for (const pullRequest of pullRequests) {
-            await this.rebase(pullRequest);
+            await this.rebase(pullRequest, baseBranch);
         }
     }
 
-    private async rebase(pullRequest: PullRequestInfo) {
+    private async rebase(pullRequest: PullRequestInfo, baseBranch?: string) {
         info(`Rebasing pull request ${JSON.stringify(pullRequest)}`);
         try {
-            await this.githubRebase.rebasePullRequest(pullRequest.ownerName, pullRequest.number, pullRequest.repoName);
+            await this.githubRebase.rebasePullRequest(
+                pullRequest.ownerName,
+                pullRequest.number,
+                pullRequest.repoName,
+                baseBranch,
+            );
 
             info(`${JSON.stringify(pullRequest)} was successfully rebased.`);
         } catch (e) {
