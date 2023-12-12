@@ -31,10 +31,10 @@ on:
 
 jobs:
     auto-rebase:
-        name: AutoRebase
+        name: @Seung-o/Auto-rebase
         runs-on: ubuntu-latest
         steps:
-            - uses: Label305/AutoRebase@v0.1
+            - uses: Seung-o/AutoRebase@1.0.0
               with:
                   # We can't use the built-in secrets.GITHUB_TOKEN yet because of this limitation:
                   # https://github.community/t5/GitHub-Actions/Triggering-a-new-workflow-from-another-workflow/td-p/31676
@@ -62,4 +62,6 @@ We recommend the following strategy when doing this:
 
 ## Attribution
 
-AutoRebase is heavily inspired by [tibdex/autosquash](https://github.com/tibdex/autosquash) and [tibdex/autorebase](https://github.com/tibdex/autosquash).
+It comes from [Label305/AutoRebase](https://github.com/Label305/AutoRebase)
+
+AutoRebase is heavily inspired by [tibdex/autosquash](https://github.com/tibdex/autosquash), [tibdex/autorebase](https://github.com/tibdex/autosquash) and [seung-o/autorebase](https://github.com/Seung-o/github-rebase).
