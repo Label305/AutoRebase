@@ -1,6 +1,6 @@
-import {GithubPullRequestInfoProvider} from '../githubPullRequestInfoProvider';
-import {ApiGetPullRequest, GetPullRequestService} from '../Api/getPullRequestService';
 import each from 'jest-each';
+import {ApiGetPullRequest, GetPullRequestService} from '../Api/getPullRequestService';
+import {GithubPullRequestInfoProvider} from '../githubPullRequestInfoProvider';
 
 class TestGetPullRequestService implements GetPullRequestService {
     results: ApiGetPullRequest[] = [];
@@ -16,7 +16,7 @@ const provider = new GithubPullRequestInfoProvider(getPullRequestService);
 describe('The pull request info is propagated', () => {
     each([['behind'], ['blocked'], ['clean'], ['dirty'], ['unstable']]).it(
         "when the mergeableState is '%s'",
-        async (mergeableState) => {
+        async (mergeableState: any) => {
             /* Given */
             getPullRequestService.results.push({
                 draft: false,
@@ -51,7 +51,7 @@ describe('The pull request info is propagated', () => {
 });
 
 describe('The pull request info is retried', () => {
-    each([['unknown'], ['invalid']]).it("when the mergeableState is '%s'", async (mergeableState) => {
+    each([['unknown'], ['invalid']]).it("when the mergeableState is '%s'", async (mergeableState: any) => {
         /* Given */
         getPullRequestService.results.push({
             draft: false,
