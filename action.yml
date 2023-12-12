@@ -1,4 +1,4 @@
-name: 'Auto rebase'
+name: '@Seung-o/Auto-rebase'
 description: 'Automatically rebases pull requests that are out-of-date.'
 
 inputs:
